@@ -1,47 +1,39 @@
 'use strict';
+const is = require('is_js');
+let utils = require('../bin/utils');
+if (is.not.existy(utils)) {
+  utils = require('../src/utils');
+}
+function getCategoryModel(stage, Sequelize) {
+  return {
+    ...utils.getModelIdField('id', Sequelize),
+    display_name: {
+      type: Sequelize.TEXT,
+      allowNull: false,
+    },
+    display_order: {
+      type: Sequelize.INTEGER,
+    },
+    ...utils.getModelTimestampColumnFields(Sequelize),
+  };
+}
+const devTableName = 'dev_category';
+const prodTableName = 'prod_category';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    function getCategoryModel(stage) {
-      return {
-        id: {
-          type: Sequelize.UUID,
-          primaryKey: true,
-          allowNull: false,
-          defaultValue: Sequelize.fn('uuid_generate_v4'),
-        },
-        display_name: {
-          type: Sequelize.TEXT,
-          allowNull: false,
-        },
-        display_order: {
-          type: Sequelize.INTEGER,
-        },
-        created_at: {
-          allowNull: false,
-          type: Sequelize.DATE,
-          defaultValue: Sequelize.fn('NOW'),
-        },
-        updated_at: {
-          allowNull: false,
-          type: Sequelize.DATE,
-          defaultValue: Sequelize.fn('NOW'),
-        },
-        deleted_at: Sequelize.DATE,
-      };
-    }
     await Promise.all([
-      queryInterface.createTable('dev_category', getCategoryModel('dev')),
-      queryInterface.createTable('prod_category', getCategoryModel('prod')),
+      queryInterface.createTable(devTableName, getCategoryModel('dev', Sequelize)),
+      queryInterface.createTable(prodTableName, getCategoryModel('prod', Sequelize)),
     ]);
     await Promise.all([
-      queryInterface.sequelize.query(`ALTER TABLE dev_category ALTER COLUMN created_at TYPE timestamp(0) with time zone, ALTER COLUMN updated_at TYPE timestamp(0) with time zone, ALTER COLUMN deleted_at TYPE timestamp(0) with time zone`),
-      queryInterface.sequelize.query(`ALTER TABLE prod_category ALTER COLUMN created_at TYPE timestamp(0) with time zone, ALTER COLUMN updated_at TYPE timestamp(0) with time zone, ALTER COLUMN deleted_at TYPE timestamp(0) with time zone`),
+      queryInterface.sequelize.query(utils.getTimestampColumnsAlterTypeSql(devTableName)),
+      queryInterface.sequelize.query(utils.getTimestampColumnsAlterTypeSql(prodTableName)),
     ]);
   },
   down: async (queryInterface, Sequelize) => {
     await Promise.all([
-      queryInterface.dropTable('dev_category'),
-      queryInterface.dropTable('prod_category'),
+      queryInterface.dropTable(devTableName),
+      queryInterface.dropTable(prodTableName),
     ]);
   }
 };
