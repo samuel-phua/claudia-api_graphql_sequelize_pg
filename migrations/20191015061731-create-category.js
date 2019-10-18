@@ -4,16 +4,14 @@ let utils = require('../bin/utils');
 if (is.not.existy(utils)) {
   utils = require('../src/utils');
 }
+let categoryFields = require('../bin/models/fields/CategoryFields');
+if (is.not.existy(categoryFields)) {
+  categoryFields = require('../src/models/fields/CategoryFields');
+}
 function getCategoryModel(stage, Sequelize) {
   return {
-    ...utils.getModelIdField('id', Sequelize),
-    display_name: {
-      type: Sequelize.TEXT,
-      allowNull: false,
-    },
-    display_order: {
-      type: Sequelize.INTEGER,
-    },
+    ...utils.getModelIdField('id', true, Sequelize),
+    ...categoryFields(Sequelize),
     ...utils.getModelTimestampColumnFields(Sequelize),
   };
 }

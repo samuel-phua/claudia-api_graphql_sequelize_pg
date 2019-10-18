@@ -1,32 +1,23 @@
-'use strict';
+import {
+  getModelIdField,
+  getModelConfig,
+} from '../bin/utils'
+import categoryFields from './fields/CategoryFields'
+const nodeEnv = process.env.NODE_ENV || 'development'
+const categoryTableName = process.env[`${nodeEnv}_category_tbl_name`]
+
 module.exports = (sequelize, DataTypes) => {
-  const nodeEnv = process.env.NODE_ENV || 'development';
-  const categoryTableName = process.env[`${nodeEnv}_category_tbl_name`];
-  const Category = sequelize.define('Category', {
-    id: {
-      type: DataTypes.UUID,
-      primaryKey: true,
-      allowNull: false,
-    },
-    display_name: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-    },
-    display_order: {
-      type: DataTypes.INTEGER,
-    },
+  let Category = sequelize.define('Category', {
+    ...getModelIdField('id', false, DataTypes),
+    ...categoryFields(DataTypes),
   }, {
-    timestamps: true,
-    paranoid: true,
-    underscored: true,
-    freezeTableName: true,
-    tableName: categoryTableName,
-  });
-  Category.associate = function(models) {
+    ...getModelConfig(categoryTableName),
+  })
+  Category.associate = models => {
     models.Category.hasMany(models.ProductCategory, {
       foreignKey: 'category_id',
       sourceKey: 'id',
-    });
-  };
-  return Category;
-};
+    })
+  }
+  return Category
+}

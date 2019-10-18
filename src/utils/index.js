@@ -4,6 +4,7 @@ import {
   getModelTimestampColumnFields,
   getModelReferenceField,
   getModelIdField,
+  getModelConfig,
 } from './sequelize'
 
 export {
@@ -12,4 +13,5 @@ export {
   getModelTimestampColumnFields,
   getModelReferenceField,
   getModelIdField,
+  getModelConfig,
 }

@@ -34,13 +34,33 @@ export const getModelReferenceField = (stage, tableName, referenceTableId, Seque
   }
 }
 
-export const getModelIdField = (fieldName, Sequelize) => {
+const defaultValueFieldConfig = (migration, Sequelize) => {
+  if (migration === true) {
+    return {
+      defaultValue: Sequelize.fn('uuid_generate_v4')
+    }
+  } else {
+    return {}
+  }
+}
+
+export const getModelIdField = (fieldName, migration, Sequelize) => {
   return {
     fieldName: {
       type: Sequelize.UUID,
       primaryKey: true,
       allowNull: false,
-      defaultValue: Sequelize.fn('uuid_generate_v4'),
+      ...defaultValueFieldConfig(migration, Sequelize),
     }
+  }
+}
+
+export const getModelConfig = tableName => {
+  return {
+    timestamps: true,
+    paranoid: true,
+    underscored: true,
+    freezeTableName: true,
+    tableName: tableName,
   }
 }

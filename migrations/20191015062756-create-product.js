@@ -4,25 +4,14 @@ let utils = require('../bin/utils');
 if (is.not.existy(utils)) {
   utils = require('../src/utils');
 }
+let productFields = require('../bin/models/fields/ProductFields');
+if (is.not.existy(productFields)) {
+  productFields = require('../src/models/fields/ProductFields');
+}
 function getProductModel(stage, Sequelize) {
   return {
-    ...utils.getModelIdField('id', Sequelize),
-    sku: {
-      type: Sequelize.TEXT,
-      allowNull: false,
-    },
-    display_name: {
-      type: Sequelize.TEXT,
-      allowNull: false,
-    },
-    unit_description: {
-      type: Sequelize.TEXT,
-      allowNull: false,
-    },
-    unit_selling_price: {
-      type: Sequelize.DECIMAL(10,2),
-      allowNull: false,
-    },
+    ...utils.getModelIdField('id', true, Sequelize),
+    ...productFields(Sequelize),
     ...utils.getModelTimestampColumnFields(Sequelize),
   };
 }
