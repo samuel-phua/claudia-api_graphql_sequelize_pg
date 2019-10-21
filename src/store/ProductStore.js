@@ -4,30 +4,30 @@ import { getLogContext } from "../utils";
 
 export const getProduct = (productId, context) => {
   const pg = context.pg;
-  let productOptions = {
+  let options = {
     order: [
       ["sku", "ASC"],
     ],
   };
   if (is.existy(productId)) {
-    productOptions.where.id = productId;
+    options.where.id = productId;
   }
-  return pg.Product.findAll(productOptions).then((result) => {
-    log.info(`getProduct completed successfully`, {
+  return pg.Product.findAll(options).then((result) => {
+    log.info("getProduct completed successfully", {
       ...getLogContext(context),
-      options: productOptions,
-      result: result,
+      options,
+      result,
     });
     if (is.not.array(result)) {
       return null;
     } else {
       return result;
     }
-  }).catch((err) => {
-    log.error(`getProduct failed to complete`, {
+  }).catch((error) => {
+    log.error("getProduct failed to complete", {
       ...getLogContext(context),
-      options: productOptions,
-      error: err,
+      options,
+      error,
     });
     return null;
   });
@@ -35,22 +35,22 @@ export const getProduct = (productId, context) => {
 
 export const getProductCategories = (product, context) => {
   const pg = context.pg;
-  const productCategoryOptions = {
+  const options = {
     where: {
       product_id: product.id,
     },
     include: [ pg.Category ],
   };
-  return pg.ProductCategory.findAll(productCategoryOptions).then((result) => {
-    log.info(`getProductCategories completed successfully`, {
+  return pg.ProductCategory.findAll(options).then((result) => {
+    log.info("getProductCategories completed successfully", {
       ...getLogContext(context),
-      options: productCategoryOptions,
-      result: result,
+      options,
+      result,
     });
     if (is.array(result) && result.length > 0) {
       return result.map((spcItem) => {
-        if (is.propertyDefined(spcItem, 'Category')) {
-          return spcItem['Category'];
+        if (is.propertyDefined(spcItem, "Category")) {
+          return spcItem["Category"];
         } else {
           return null;
         }
@@ -58,11 +58,11 @@ export const getProductCategories = (product, context) => {
     } else {
       return null;
     }
-  }).catch((err) => {
-    log.error(`getProductCategories failed to complete`, {
+  }).catch((error) => {
+    log.error("getProductCategories failed to complete", {
       ...getLogContext(context),
-      options: productCategoryOptions,
-      error: err,
+      options,
+      error,
     });
     return null;
   });
