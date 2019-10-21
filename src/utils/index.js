@@ -6,6 +6,9 @@ import {
   getModelIdField,
   getModelConfig,
 } from "./sequelize";
+import {
+  mapArrayItemProperty,
+} from "./array";
 
 export {
   getLogContext,

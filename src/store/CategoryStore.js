@@ -1,6 +1,9 @@
 import is from "is_js";
 import log from "lambda-log";
-import { getLogContext } from "../utils";
+import {
+  getLogContext,
+  mapArrayItemProperty,
+} from "../utils";
 
 export const getCategory = (categoryId, context) => {
   const pg = context.pg;
@@ -47,17 +50,7 @@ export const getCategoryProducts = (category, context) => {
       options,
       result,
     });
-    if (is.array(result) && result.length > 0) {
-      return result.map((spcItem) => {
-        if (is.propertyDefined(spcItem, "Product")) {
-          return spcItem["Product"];
-        } else {
-          return null;
-        }
-      });
-    } else {
-      return null;
-    }
+    return mapArrayItemProperty(result, "Product");
   }).catch((error) => {
     log.error("getCategoryProducts failed to complete", {
       ...getLogContext(context),
