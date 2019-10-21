@@ -7,5 +7,5 @@ export default (Sequelize) => {
     display_order: {
       type: Sequelize.INTEGER,
     },
-  }
+  };
 };

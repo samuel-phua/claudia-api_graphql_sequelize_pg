@@ -12,12 +12,12 @@ module.exports = (sequelize, DataTypes) => {
     product_id: DataTypes.UUID,
   }, {
     ...getModelConfig(productCategoryTableName),
-  })
+  });
   ProductCategory.associate = (models) => {
     models.ProductCategory.belongsTo(models.Category, {
       foreignKey: "category_id",
       targetKey: "id",
-    })
+    });
     models.ProductCategory.belongsTo(models.Product, {
       foreignKey: "product_id",
       targetKey: "id",

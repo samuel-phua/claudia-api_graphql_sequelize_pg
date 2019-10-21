@@ -24,12 +24,12 @@ const initClient = () => {
     pool: {
       max: 1,
     },
-  })
+  });
 
   modelModules.forEach(modelModule => {
     const model = modelModule(sequelize, Sequelize);
     dbClient[model.name] = model;
-  })
+  });
 
   Object.keys(dbClient).forEach(modelName => {
     if (dbClient[modelName].associate) {
@@ -41,7 +41,7 @@ const initClient = () => {
   dbClient.Sequelize = Sequelize;
   dbClient.Op = Sequelize.Op;
 
-  return dbClient
+  return dbClient;
 }
 
 const getClient = () => {
