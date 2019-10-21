@@ -17,4 +17,5 @@ export {
   getModelReferenceField,
   getModelIdField,
   getModelConfig,
+  mapArrayItemProperty,
 };
