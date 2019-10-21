@@ -1,4 +1,7 @@
-import { getLogContext } from "./log";
+import {
+  getContext,
+  mockContext,
+} from "./context";
 import {
   getTimestampColumnsAlterTypeSql,
   getModelTimestampColumnFields,
@@ -12,6 +15,7 @@ import {
 
 export {
   getLogContext,
+  mockContext,
   getTimestampColumnsAlterTypeSql,
   getModelTimestampColumnFields,
   getModelReferenceField,

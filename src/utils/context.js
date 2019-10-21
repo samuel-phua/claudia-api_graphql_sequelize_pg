@@ -1,4 +1,4 @@
-export const getLogContext = (context) => {
+export const getContext = (context) => {
   return {
     // nodeEnvironment: process.env.NODE_ENV,
     apiGatewayMethod: context.apiGatewayContext.method,
@@ -15,5 +15,30 @@ export const getLogContext = (context) => {
     lambdaInvokedFunctionArn: context.lambdaContext.invokedFunctionArn,
     lambdaMemoryAllocated: context.lambdaContext.memoryLimitInMB,
     lambdaRemainingTime: context.lambdaContext.getRemainingTimeInMillis(),
+  };
+};
+
+export const mockContext = (db) => {
+  return {
+    pg: db,
+    env: {},
+    apiGatewayContext: {
+      method: null,
+      stage: null,
+      sourceIp: null,
+      accountId: null,
+      user: null,
+      userAgent: null,
+      userArn: null,
+      caller: null,
+      apiKey: null,
+    },
+    lambdaContext: {
+      functionName: null,
+      functionVersion: null,
+      invokedFunctionArn: null,
+      memoryLimitInMB: null,
+      getRemainingTimeInMillis: () => { return null; },
+    },
   };
 };

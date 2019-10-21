@@ -49,8 +49,8 @@ api.post("/graphql", async (request) => {
   let context = {
     pg: db.getClient(),
     env: request.env,
-    lambdaContext: request.lambdaContext,
     apiGatewayContext: request.context,
+    lambdaContext: request.lambdaContext,
   };
 
   const response = await graphql(schema, request.body, null, context);
