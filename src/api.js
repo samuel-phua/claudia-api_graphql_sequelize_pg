@@ -12,7 +12,7 @@ api.corsHeaders("Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Api-Version")
 // define a global function that returns an allowed cors origin
 // this will be used for the OPTIONS access-control-allow-origin response header
 api.corsOrigin((request) => {
-  console.info("got cors request", JSON.stringify(request));
+  log.info("got cors request", JSON.stringify(request));
   if (/example.com$/.test(request.normalizeHeaders.origin)) {
     return request.normalizeHeaders.origin;
   }
@@ -23,7 +23,7 @@ api.corsOrigin((request) => {
 api.get("/", (request) => {
   const context = request.lambdaContext;
   const alias = context.invokedFunctionArn.replace(/.*:/g, "");
-  console.info(`alias: ${alias} version: ${context.functionVersion}`);
+  log.info(`alias: ${alias} version: ${context.functionVersion}`);
   return "hello world";
 });
 

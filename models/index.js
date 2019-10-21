@@ -31,7 +31,8 @@ const initClient = () => {
     dbClient[model.name] = model;
   });
 
-  Object.keys(dbClient).forEach((modelName) => {
+  Object.keys(dbClient).forEach((key) => {
+    const modelName = key;
     const model = dbClient[modelName];
     if (model.associate) {
       model.associate(dbClient);
