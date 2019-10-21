@@ -6,10 +6,10 @@ import {
   GraphQLString,
   GraphQLBoolean,
   GraphQLID,
-} from "graphql"
-import categoryFields from "../fields/CategoryFields"
+} from "graphql";
+import categoryFields from "../fields/CategoryFields";
 
 export default new GraphQLInputObjectType({
   name: "CreateCategoryInput",
   fields: categoryFields,
-})
+});

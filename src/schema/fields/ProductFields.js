@@ -2,7 +2,7 @@ import {
   GraphQLNonNull,
   GraphQLFloat,
   GraphQLString,
-} from "graphql"
+} from "graphql";
 
 export default {
   sku: {
@@ -17,4 +17,4 @@ export default {
   unit_selling_price: {
     type: new GraphQLNonNull(GraphQLFloat),
   },
-}
+};

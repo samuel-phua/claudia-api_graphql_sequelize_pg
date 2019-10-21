@@ -2,7 +2,7 @@ import {
   GraphQLNonNull,
   GraphQLInt,
   GraphQLString,
-} from "graphql"
+} from "graphql";
 
 export default {
   display_name: {
@@ -11,4 +11,4 @@ export default {
   display_order: {
     type: GraphQLInt,
   },
-}
+};

@@ -1,8 +1,8 @@
 import {
   GraphQLObjectType,
-} from "graphql"
-import idField from "../fields/IdField"
-import categoryFields from "../fields/CategoryFields"
+} from "graphql";
+import idField from "../fields/IdField";
+import categoryFields from "../fields/CategoryFields";
 
 export default new GraphQLObjectType({
   name: "CategoryBase",
@@ -10,4 +10,4 @@ export default new GraphQLObjectType({
     ...idField,
     ...categoryFields,
   },
-})
+});

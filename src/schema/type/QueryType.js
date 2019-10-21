@@ -2,13 +2,13 @@ import {
   GraphQLObjectType,
   GraphQLList,
   GraphQLString,
-} from "graphql"
-import categoryType from "./CategoryType"
-import productType from "./ProductType"
+} from "graphql";
+import categoryType from "./CategoryType";
+import productType from "./ProductType";
 import {
   getCategory,
   getProduct,
-} from "../../store"
+} from "../../store";
 
 export default new GraphQLObjectType({
   name: "Query",
@@ -33,4 +33,4 @@ export default new GraphQLObjectType({
       resolve: (source, args, context) => getProduct(args.productId, context),
     },
   },
-})
+});

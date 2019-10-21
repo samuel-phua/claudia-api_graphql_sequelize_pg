@@ -6,10 +6,10 @@ import {
   GraphQLString,
   GraphQLBoolean,
   GraphQLID,
-} from "graphql"
-import productFields from "../fields/productFields"
+} from "graphql";
+import productFields from "../fields/productFields";
 
 export default new GraphQLInputObjectType({
   name: "CreateProductInput",
   fields: productFields,
-})
+});

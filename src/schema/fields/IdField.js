@@ -1,10 +1,10 @@
 import {
   GraphQLNonNull,
   GraphQLID,
-} from "graphql"
+} from "graphql";
 
 export default {
   id: {
     type: new GraphQLNonNull(GraphQLID),
   },
-}
+};

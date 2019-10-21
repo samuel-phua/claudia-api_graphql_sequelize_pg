@@ -6,9 +6,9 @@ import {
   GraphQLString,
   GraphQLBoolean,
   GraphQLID,
-} from "graphql"
-import idField from "../fields/IdField"
-import productFields from "../fields/ProductFields"
+} from "graphql";
+import idField from "../fields/IdField";
+import productFields from "../fields/ProductFields";
 
 export default new GraphQLInputObjectType({
   name: "UpdateProductInput",
@@ -16,4 +16,4 @@ export default new GraphQLInputObjectType({
     ...idField,
     ...productFields,
   },
-})
+});
