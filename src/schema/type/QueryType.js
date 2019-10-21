@@ -2,17 +2,17 @@ import {
   GraphQLObjectType,
   GraphQLList,
   GraphQLString,
-} from 'graphql'
-import categoryType from './CategoryType'
-import productType from './ProductType'
+} from "graphql"
+import categoryType from "./CategoryType"
+import productType from "./ProductType"
 import {
   getCategory,
   getProduct,
-} from '../../store'
+} from "../../store"
 
 export default new GraphQLObjectType({
-  name: 'Query',
-  description: 'root query object',
+  name: "Query",
+  description: "root query object",
   fields: {
     category: {
       type: new GraphQLList(categoryType),

@@ -2,13 +2,9 @@ import {
   GraphQLNonNull,
   GraphQLInt,
   GraphQLString,
-  GraphQLID,
-} from 'graphql'
+} from "graphql"
 
 export default {
-  id: {
-    type: new GraphQLNonNull(GraphQLID),
-  },
   display_name: {
     type: new GraphQLNonNull(GraphQLString),
   },

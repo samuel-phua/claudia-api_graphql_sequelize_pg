@@ -2,13 +2,13 @@ import {
   GraphQLObjectType,
   GraphQLNonNull,
   GraphQLString,
-} from 'graphql'
-import categoryType from './CategoryType'
-import productType from './ProductType'
-import createCategoryInput from '../input/CreateCategoryInput'
-import updateCategoryInput from '../input/UpdateCategoryInput'
-import createProductInput from '../input/CreateProductInput'
-import updateProductInput from '../input/UpdateProductInput'
+} from "graphql"
+import categoryType from "./CategoryType"
+import productType from "./ProductType"
+import createCategoryInput from "../input/CreateCategoryInput"
+import updateCategoryInput from "../input/UpdateCategoryInput"
+import createProductInput from "../input/CreateProductInput"
+import updateProductInput from "../input/UpdateProductInput"
 import {
   createCategory,
   updateCategory,
@@ -16,11 +16,11 @@ import {
   createProduct,
   updateProduct,
   deleteProduct,
-} from '../../store'
+} from "../../store"
 
 export default new GraphQLObjectType({
-  name: 'Mutation',
-  description: 'root mutation object',
+  name: "Mutation",
+  description: "root mutation object",
   fields: {
     createCategory: {
       type: categoryType,

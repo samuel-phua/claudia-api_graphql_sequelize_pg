@@ -6,19 +6,14 @@ import {
   GraphQLString,
   GraphQLBoolean,
   GraphQLID,
-} from 'graphql'
+} from "graphql"
+import idField from "../fields/IdField"
+import categoryFields from "../fields/CategoryFields"
 
 export default new GraphQLInputObjectType({
-  name: 'UpdateCategoryInput',
+  name: "UpdateCategoryInput",
   fields: {
-    id: {
-      type: new GraphQLNonNull(GraphQLID),
-    },
-    display_name: {
-      type: new GraphQLNonNull(GraphQLString),
-    },
-    display_order: {
-      type: GraphQLInt,
-    },
+    ...idField,
+    ...categoryFields,
   },
 })

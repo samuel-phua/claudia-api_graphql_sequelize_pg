@@ -6,22 +6,10 @@ import {
   GraphQLString,
   GraphQLBoolean,
   GraphQLID,
-} from 'graphql'
+} from "graphql"
+import productFields from "../fields/productFields"
 
 export default new GraphQLInputObjectType({
-  name: 'CreateProductInput',
-  fields: {
-    sku: {
-      type: new GraphQLNonNull(GraphQLString),
-    },
-    display_name: {
-      type: new GraphQLNonNull(GraphQLString),
-    },
-    unit_description: {
-      type: new GraphQLNonNull(GraphQLString),
-    },
-    unit_selling_price: {
-      type: new GraphQLNonNull(GraphQLFloat),
-    },
-  },
+  name: "CreateProductInput",
+  fields: productFields,
 })

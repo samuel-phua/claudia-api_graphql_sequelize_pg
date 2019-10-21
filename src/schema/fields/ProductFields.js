@@ -1,15 +1,10 @@
 import {
   GraphQLNonNull,
-  GraphQLInt,
   GraphQLFloat,
   GraphQLString,
-  GraphQLID,
-} from 'graphql'
+} from "graphql"
 
 export default {
-  id: {
-    type: new GraphQLNonNull(GraphQLID),
-  },
   sku: {
     type: new GraphQLNonNull(GraphQLString),
   },
