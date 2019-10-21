@@ -7,12 +7,12 @@ export const getModelTimestampColumnFields = Sequelize => {
     created_at: {
       allowNull: false,
       type: Sequelize.DATE,
-      defaultValue: Sequelize.fn('NOW'),
+      defaultValue: Sequelize.fn("NOW"),
     },
     updated_at: {
       allowNull: false,
       type: Sequelize.DATE,
-      defaultValue: Sequelize.fn('NOW'),
+      defaultValue: Sequelize.fn("NOW"),
     },
     deleted_at: Sequelize.DATE,
   }
@@ -28,8 +28,8 @@ export const getModelReferenceField = (stage, tableName, referenceTableId, Seque
         model: `${stage}_${tableName}`,
         key: referenceTableId,
       },
-      onUpdate: 'cascade',
-      onDelete: 'cascade',
+      onUpdate: "cascade",
+      onDelete: "cascade",
     }
   }
 }
@@ -37,10 +37,10 @@ export const getModelReferenceField = (stage, tableName, referenceTableId, Seque
 const defaultValueFieldConfig = (migration, Sequelize) => {
   if (migration === true) {
     return {
-      defaultValue: Sequelize.fn('uuid_generate_v4')
+      defaultValue: Sequelize.fn("uuid_generate_v4")
     }
   } else {
-    return {}
+    return {};
   }
 }
 
@@ -55,12 +55,12 @@ export const getModelIdField = (fieldName, migration, Sequelize) => {
   }
 }
 
-export const getModelConfig = tableName => {
+export const getModelConfig = (tableName) => {
   return {
     timestamps: true,
     paranoid: true,
     underscored: true,
     freezeTableName: true,
-    tableName: tableName,
+    tableName,
   }
 }

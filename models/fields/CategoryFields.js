@@ -1,4 +1,4 @@
-export default Sequelize => {
+export default (Sequelize) => {
   return {
     display_name: {
       type: Sequelize.TEXT,
@@ -8,4 +8,4 @@ export default Sequelize => {
       type: Sequelize.INTEGER,
     },
   }
-}
+};

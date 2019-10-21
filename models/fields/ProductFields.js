@@ -1,4 +1,4 @@
-export default Sequelize => {
+export default (Sequelize) => {
   return {
     sku: {
       type: Sequelize.TEXT,
@@ -17,4 +17,4 @@ export default Sequelize => {
       allowNull: false,
     },
   }
-}
+};
