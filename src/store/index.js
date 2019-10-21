@@ -4,14 +4,14 @@ import {
   createCategory,
   updateCategory,
   deleteCategory,
-} from './CategoryStore'
+} from "./CategoryStore";
 import {
   getProduct,
   getProductCategories,
   createProduct,
   updateProduct,
   deleteProduct,
-} from './ProductStore'
+} from "./ProductStore";
 
 export {
   getCategory,
@@ -24,4 +24,4 @@ export {
   createProduct,
   updateProduct,
   deleteProduct,
-}
+};

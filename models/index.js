@@ -26,12 +26,12 @@ const initClient = () => {
     },
   });
 
-  modelModules.forEach(modelModule => {
+  modelModules.forEach((modelModule) => {
     const model = modelModule(sequelize, Sequelize);
     dbClient[model.name] = model;
   });
 
-  Object.keys(dbClient).forEach(modelName => {
+  Object.keys(dbClient).forEach((modelName) => {
     if (dbClient[modelName].associate) {
       dbClient[modelName].associate(dbClient);
     }

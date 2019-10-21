@@ -1,11 +1,11 @@
-import { getLogContext } from './log'
+import { getLogContext } from "./log";
 import {
   getTimestampColumnsAlterTypeSql,
   getModelTimestampColumnFields,
   getModelReferenceField,
   getModelIdField,
   getModelConfig,
-} from './sequelize'
+} from "./sequelize";
 
 export {
   getLogContext,
@@ -14,4 +14,4 @@ export {
   getModelReferenceField,
   getModelIdField,
   getModelConfig,
-}
+};

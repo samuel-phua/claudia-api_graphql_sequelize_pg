@@ -1,8 +1,8 @@
-export const getTimestampColumnsAlterTypeSql = tableName => {
-  return `ALTER TABLE ${tableName} ALTER COLUMN created_at TYPE timestamp(0) with time zone, ALTER COLUMN updated_at TYPE timestamp(0) with time zone, ALTER COLUMN deleted_at TYPE timestamp(0) with time zone`
-}
+export const getTimestampColumnsAlterTypeSql = (tableName) => {
+  return `ALTER TABLE ${tableName} ALTER COLUMN created_at TYPE timestamp(0) with time zone, ALTER COLUMN updated_at TYPE timestamp(0) with time zone, ALTER COLUMN deleted_at TYPE timestamp(0) with time zone`;
+};
 
-export const getModelTimestampColumnFields = Sequelize => {
+export const getModelTimestampColumnFields = (Sequelize) => {
   return {
     created_at: {
       allowNull: false,
@@ -15,11 +15,11 @@ export const getModelTimestampColumnFields = Sequelize => {
       defaultValue: Sequelize.fn("NOW"),
     },
     deleted_at: Sequelize.DATE,
-  }
-}
+  };
+};
 
 export const getModelReferenceField = (stage, tableName, referenceTableId, Sequelize) => {
-  const columnName = `${tableName}_${referenceTableId}`
+  const columnName = `${tableName}_${referenceTableId}`;
   return {
     columnName: {
       type: Sequelize.UUID,
@@ -31,18 +31,18 @@ export const getModelReferenceField = (stage, tableName, referenceTableId, Seque
       onUpdate: "cascade",
       onDelete: "cascade",
     }
-  }
-}
+  };
+};
 
 const defaultValueFieldConfig = (migration, Sequelize) => {
   if (migration === true) {
     return {
       defaultValue: Sequelize.fn("uuid_generate_v4")
-    }
+    };
   } else {
     return {};
   }
-}
+};
 
 export const getModelIdField = (fieldName, migration, Sequelize) => {
   return {
@@ -52,8 +52,8 @@ export const getModelIdField = (fieldName, migration, Sequelize) => {
       allowNull: false,
       ...defaultValueFieldConfig(migration, Sequelize),
     }
-  }
-}
+  };
+};
 
 export const getModelConfig = (tableName) => {
   return {
@@ -62,5 +62,5 @@ export const getModelConfig = (tableName) => {
     underscored: true,
     freezeTableName: true,
     tableName,
-  }
-}
+  };
+};

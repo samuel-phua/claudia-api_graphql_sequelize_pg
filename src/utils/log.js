@@ -1,4 +1,4 @@
-export const getLogContext = context => {
+export const getLogContext = (context) => {
   return {
     // nodeEnvironment: process.env.NODE_ENV,
     apiGatewayMethod: context.apiGatewayContext.method,
@@ -15,5 +15,5 @@ export const getLogContext = context => {
     lambdaInvokedFunctionArn: context.lambdaContext.invokedFunctionArn,
     lambdaMemoryAllocated: context.lambdaContext.memoryLimitInMB,
     lambdaRemainingTime: context.lambdaContext.getRemainingTimeInMillis(),
-  }
-}
+  };
+};

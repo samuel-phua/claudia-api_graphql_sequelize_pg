@@ -18,6 +18,6 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "product_id",
       sourceKey: "id",
     });
-  }
+  };
   return Product;
 };
