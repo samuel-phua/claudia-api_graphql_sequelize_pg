@@ -31,7 +31,8 @@ const initClient = () => {
     dbClient[model.name] = model;
   });
 
-  Object.keys(dbClient).forEach((modelName) => {
+  Object.keys(dbClient).forEach((key) => {
+    const modelName = key;
     if (dbClient[modelName].associate) {
       dbClient[modelName].associate(dbClient);
     }
@@ -42,15 +43,15 @@ const initClient = () => {
   dbClient.Op = Sequelize.Op;
 
   return dbClient;
-}
+};
 
 const getClient = () => {
   return dbClient;
-}
+};
 
 const disconnect = async () => {
   await dbClient.sequelize.close();
-}
+};
 
 module.exports = {
   initClient,

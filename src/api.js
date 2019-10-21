@@ -20,9 +20,9 @@ api.corsOrigin((request) => {
 });
 
 // cors headers will automatically be added to all requests
-api.get("/", request => {
+api.get("/", (request) => {
   const context = request.lambdaContext;
-  const alias = context.invokedFunctionArn.replace(/.*:/g, '');
+  const alias = context.invokedFunctionArn.replace(/.*:/g, "");
   console.info(`alias: ${alias} version: ${context.functionVersion}`);
   return "hello world";
 });
@@ -38,7 +38,7 @@ api.get("/programmatic-headers", () => {
   }
 });
 
-api.post("/graphql", async request => {
+api.post("/graphql", async (request) => {
   // request.body is the GraphQL query string. It must exist
   if (typeof request.body !== "string") {
     return "POST body must be a string";
@@ -57,6 +57,6 @@ api.post("/graphql", async request => {
 
   await db.disconnect();
   return response;
-})
+});
 
 export default api;
