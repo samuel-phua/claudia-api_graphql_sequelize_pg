@@ -31,10 +31,10 @@ const initClient = () => {
     dbClient[model.name] = model;
   });
 
-  Object.keys(dbClient).forEach((key) => {
-    const modelName = key;
-    if (dbClient[modelName].associate) {
-      dbClient[modelName].associate(dbClient);
+  Object.keys(dbClient).forEach((modelName) => {
+    const model = dbClient[modelName];
+    if (model.associate) {
+      model.associate(dbClient);
     }
   });
 
