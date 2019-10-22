@@ -16,7 +16,7 @@ test("get product category list", async () => {
   const productObject = await db.Product.findOne({ where: { sku: "NG-001" }});
 
   try {
-    const productCategories = await getProductCategories(productObject.toJSON(), context);
+    const productCategories = await getProductCategories(productObject, context);
     expect(productCategories).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
