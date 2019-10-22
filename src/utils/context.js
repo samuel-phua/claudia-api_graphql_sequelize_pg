@@ -1,4 +1,13 @@
-export const getContext = (context) => {
+export const getContext = (db, request) => {
+  return {
+    pg: db,
+    env: request.env,
+    apiGatewayContext: request.context,
+    lambdaContext: request.lambdaContext,
+  };
+};
+
+export const getContextForLog = (context) => {
   return {
     // nodeEnvironment: process.env.NODE_ENV,
     apiGatewayMethod: context.apiGatewayContext.method,

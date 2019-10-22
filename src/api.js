@@ -1,7 +1,8 @@
 import ApiBuilder from "claudia-api-builder";
 import { graphql } from "graphql";
 import schema from "./schema";
-import db from "./models";
+import models from "./models";
+import { getContext } from "./utils";
 import log from "lambda-log";
 
 const api = new ApiBuilder;
@@ -44,18 +45,11 @@ api.post("/graphql", async (request) => {
     return "POST body must be a string";
   }
 
-  db.initClient();
-
-  let context = {
-    pg: db.getClient(),
-    env: request.env,
-    apiGatewayContext: request.context,
-    lambdaContext: request.lambdaContext,
-  };
-
+  const db = await models.init();
+  const context = getContext(db, request);
   const response = await graphql(schema, request.body, null, context);
 
-  await db.disconnect();
+  await db.end();
   return response;
 });
 

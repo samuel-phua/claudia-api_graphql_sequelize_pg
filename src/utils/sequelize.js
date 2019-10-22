@@ -20,18 +20,18 @@ export const getModelTimestampColumnFields = (Sequelize) => {
 
 export const getModelReferenceField = (stage, tableName, referenceTableId, Sequelize) => {
   const columnName = `${tableName}_${referenceTableId}`;
-  return {
-    columnName: {
-      type: Sequelize.UUID,
-      allowNull: false,
-      references: {
-        model: `${stage}_${tableName}`,
-        key: referenceTableId,
-      },
-      onUpdate: "cascade",
-      onDelete: "cascade",
-    }
+  let result = {};
+  result[columnName] = {
+    type: Sequelize.UUID,
+    allowNull: false,
+    references: {
+      model: `${stage}_${tableName}`,
+      key: referenceTableId,
+    },
+    onUpdate: "cascade",
+    onDelete: "cascade",
   };
+  return result;
 };
 
 const defaultValueFieldConfig = (migration, Sequelize) => {
@@ -45,14 +45,14 @@ const defaultValueFieldConfig = (migration, Sequelize) => {
 };
 
 export const getModelIdField = (fieldName, migration, Sequelize) => {
-  return {
-    fieldName: {
-      type: Sequelize.UUID,
-      primaryKey: true,
-      allowNull: false,
-      ...defaultValueFieldConfig(migration, Sequelize),
-    }
+  let result = {};
+  result[fieldName] = {
+    type: Sequelize.UUID,
+    primaryKey: true,
+    allowNull: false,
+    ...defaultValueFieldConfig(migration, Sequelize),
   };
+  return result;
 };
 
 export const getModelConfig = (tableName) => {

@@ -9,12 +9,10 @@ const modelModules = [
   Product,
   ProductCategory,
 ];
-const nodeEnv = process.env.NODE_ENV || "development";
-const dbConnStr = process.env[`${nodeEnv}_db_conn_str`];
 
-let dbClient = {};
-
-const initClient = () => {
+const init = async () => {
+  const nodeEnv = process.env.NODE_ENV || "development";
+  const dbConnStr = process.env[`${nodeEnv}_db_conn_str`];
   const sequelize = new Sequelize(dbConnStr, {
     logging: false,
     dialect: "postgres",
@@ -25,13 +23,15 @@ const initClient = () => {
       max: 1,
     },
   });
+  await sequelize.authenticate();
 
-  modelModules.forEach((modelModule) => {
-    const model = modelModule(sequelize, Sequelize);
-    dbClient[model.name] = model;
-  });
+  let dbClient = modelModules.reduce((accumulator, currentModule) => {
+    const model = currentModule(sequelize, Sequelize);
+    accumulator[model.name] = model;
+    return accumulator;
+  }, {});
 
-  Object.keys(dbClient).forEach((modelName) => {
+  Object.keys(dbClient).map((modelName) => {
     const model = dbClient[modelName];
     if (model.associate) {
       model.associate(dbClient);
@@ -41,20 +41,11 @@ const initClient = () => {
   dbClient.sequelize = sequelize;
   dbClient.Sequelize = Sequelize;
   dbClient.Op = Sequelize.Op;
+  dbClient.end = async () => await dbClient.sequelize.close();
 
   return dbClient;
-};
-
-const getClient = () => {
-  return dbClient;
-};
-
-const disconnect = async () => {
-  await dbClient.sequelize.close();
 };
 
 module.exports = {
-  initClient,
-  getClient,
-  disconnect,
+  init,
 };

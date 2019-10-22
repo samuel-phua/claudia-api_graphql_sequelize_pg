@@ -1,7 +1,7 @@
 import is from "is_js";
 import log from "lambda-log";
 import {
-  getContext,
+  getContextForLog,
   mapArrayItemProperty,
 } from "../utils";
 
@@ -17,7 +17,7 @@ export const getCategory = (categoryId, context) => {
   }
   return pg.Category.findAll(options).then((result) => {
     log.info("getCategory completed successfully", {
-      ...getContext(context),
+      ...getContextForLog(context),
       options,
       result,
     });
@@ -28,7 +28,7 @@ export const getCategory = (categoryId, context) => {
     }
   }).catch((error) => {
     log.error("getCategory failed to complete", {
-      ...getContext(context),
+      ...getContextForLog(context),
       options,
       error,
     });
@@ -46,14 +46,14 @@ export const getCategoryProducts = (category, context) => {
   };
   return pg.ProductCategory.findAll(options).then((result) => {
     log.info("getCategoryProducts completed successfully", {
-      ...getContext(context),
+      ...getContextForLog(context),
       options,
       result,
     });
     return mapArrayItemProperty(result, "Product");
   }).catch((error) => {
     log.error("getCategoryProducts failed to complete", {
-      ...getContext(context),
+      ...getContextForLog(context),
       options,
       error,
     });

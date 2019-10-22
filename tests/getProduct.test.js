@@ -1,15 +1,18 @@
-import { development_db_conn_str } from "../env.json";
-import pg from "../models";
+import env from "../env.json";
+import models from "../models";
 import { mockContext } from "../src/utils";
 import { getProduct } from "../src/store";
 
 beforeAll(() => {
-  process.env.NODE_ENV = "development";
-  process.env.development_db_conn_str = development_db_conn_str;
+  process.env = {
+    NODE_ENV: "development",
+    ...env,
+  };
 });
 
 test("get product list", async () => {
-  const context = mockContext(pg.initClient());
+  const db = await models.init();
+  const context = mockContext(db);
 
   try {
     const product = await getProduct(null, context);
@@ -19,13 +22,13 @@ test("get product list", async () => {
           sku: expect.any(String),
           display_name: expect.any(String),
           unit_description: expect.any(String),
-          unit_selling_price: expect.any(Number),
+          unit_selling_price: expect.any(String), // JSON doesn't support float as a data type
         }),
       ]),
     );
   } catch (error) {
     expect(error).toBe(null);
   } finally {
-    await pg.disconnect();
+    await db.end();
   }
 });

@@ -1,5 +1,6 @@
 import {
   getContext,
+  getContextForLog,
   mockContext,
 } from "./context";
 import {
@@ -14,7 +15,8 @@ import {
 } from "./array";
 
 export {
-  getLogContext,
+  getContext,
+  getContextForLog,
   mockContext,
   getTimestampColumnsAlterTypeSql,
   getModelTimestampColumnFields,

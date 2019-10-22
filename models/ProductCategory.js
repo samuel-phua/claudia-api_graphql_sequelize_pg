@@ -2,10 +2,10 @@ import {
   getModelIdField,
   getModelConfig,
 } from "../bin/utils";
-const nodeEnv = process.env.NODE_ENV || "development";
-const productCategoryTableName = process.env[`${nodeEnv}_product_category_tbl_name`];
 
 module.exports = (sequelize, DataTypes) => {
+  const nodeEnv = process.env.NODE_ENV || "development";
+  const productCategoryTableName = process.env[`${nodeEnv}_product_category_tbl_name`];
   let ProductCategory = sequelize.define("ProductCategory", {
     ...getModelIdField("id", false, DataTypes),
     category_id: DataTypes.UUID,
