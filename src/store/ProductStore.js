@@ -62,13 +62,74 @@ export const getProductCategories = (product, context) => {
 };
 
 export const createProduct = (product, context) => {
-  return null;
+  const pg = context.pg;
+  const fields = ["sku", "display_name", "unit_description", "unit_selling_price"];
+  return pg.Product.create(product, { fields }).then((result) => {
+    log.info("createProduct completed successfully", {
+      ...getContextForLog(context),
+      product,
+      fields,
+      result,
+    });
+    return result;
+  }).catch((error) => {
+    log.error("createProduct failed to complete", {
+      ...getContextForLog(context),
+      product,
+      fields,
+      error,
+    });
+    return null;
+  });
 };
 
 export const updateProduct = (product, context) => {
-  return null;
+  const pg = context.pg;
+  const fields = ["sku", "display_name", "unit_description", "unit_selling_price"];
+  const options = {
+    where: {
+      id: product.id,
+    },
+    fields,
+  };
+  return pg.Product.update(product, options).then((result) => {
+    log.info("updateProduct completed successfully", {
+      ...getContextForLog(context),
+      product,
+      options,
+      result,
+    });
+    return result;
+  }).catch((error) => {
+    log.error("updateProduct failed to complete", {
+      product,
+      options,
+      error,
+    });
+    return null;
+  });
 };
 
 export const deleteProduct = (productId, context) => {
-  return null;
+  const pg = context.pg;
+  const options = {
+    where: {
+      id: productId,
+    }
+  };
+  return pg.Product.destroy(options).then((result) => {
+    log.info("deleteProduct completed successfully", {
+      ...getContextForLog(context),
+      options,
+      result,
+    });
+    return result;
+  }).catch((error) => {
+    log.error("deleteProduct failed to complete", {
+      ...getContextForLog(context),
+      options,
+      error,
+    });
+    return null;
+  });
 };

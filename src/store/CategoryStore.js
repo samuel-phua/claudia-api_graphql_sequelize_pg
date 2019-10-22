@@ -62,13 +62,75 @@ export const getCategoryProducts = (category, context) => {
 };
 
 export const createCategory = (category, context) => {
-  return null;
+  const pg = context.pg;
+  const fields = ["display_name", "display_order"];
+  return pg.Category.create(category, { fields }).then((result) => {
+    log.info("createCategory completed successfully", {
+      ...getContextForLog(context),
+      category,
+      fields,
+      result,
+    });
+    return result;
+  }).catch((error) => {
+    log.error("createCategory failed to complete", {
+      ...getContextForLog(context),
+      category,
+      fields,
+      error,
+    });
+    return null;
+  });
 };
 
 export const updateCategory = (category, context) => {
-  return null;
+  const pg = context.pg;
+  const fields = ["display_name", "display_order"];
+  const options = {
+    where: {
+      id: category.id,
+    },
+    fields,
+  };
+  return pg.Category.update(category, options).then((result) => {
+    log.info("updateCategory completed successfully", {
+      ...getContextForLog(context),
+      category,
+      options,
+      result,
+    });
+    return result;
+  }).catch((error) => {
+    log.error("updateCategory failed to complete", {
+      ...getContextForLog(context),
+      category,
+      options,
+      error,
+    });
+    return null;
+  });
 };
 
 export const deleteCategory = (categoryId, context) => {
-  return null;
+  const pg = context.pg;
+  const options = {
+    where: {
+      id: categoryId,
+    }
+  };
+  return pg.Category.destroy(options).then((result) => {
+    log.info("deleteCategory completed successfully", {
+      ...getContextForLog(context),
+      options,
+      result,
+    });
+    return result; // number of deleted rows
+  }).catch((error) => {
+    log.error("deleteCategory failed to complete", {
+      ...getContextForLog(context),
+      options,
+      error,
+    });
+    return null;
+  });
 };
