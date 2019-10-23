@@ -19,7 +19,7 @@ const productSchema = expect.objectContaining({
   sku: expect.any(String),
   display_name: expect.any(String),
   unit_description: expect.any(String),
-  unit_selling_price: expect.any(String), // JSON doesn't support float as a data type
+  unit_selling_price: expect.any(String), // Sequelize outputs decimal number as string; Graphql will parse this and output to decimal number.
 });
 
 export const validateProduct = (product) => {
