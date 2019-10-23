@@ -18,10 +18,19 @@ beforeAll(() => {
 
 describe("CategoryStore List tests", () => {
 
-  test("get category list", async () => {
-    const db = await models.init();
-    const context = mockContext(db);
+  let db, context;
 
+  beforeEach(async () => {
+    db = await models.init();
+    context = mockContext(db);
+  });
+
+  afterEach(async () => {
+    await db.end();
+    context = null;
+  });
+
+  test("get category list", async () => {
     try {
       const category = await getCategory(null, context);
       expect(category).toEqual(
@@ -34,14 +43,10 @@ describe("CategoryStore List tests", () => {
       );
     } catch (error) {
       expect(error).toBe(null);
-    } finally {
-      await db.end();
     }
   });
 
   test("get category product list", async () => {
-    const db = await models.init();
-    const context = mockContext(db);
     const categoryObject = await db.Category.findOne({ where: { display_order: 0 }});
 
     try {
@@ -58,8 +63,6 @@ describe("CategoryStore List tests", () => {
       );
     } catch (error) {
       expect(error).toBe(null);
-    } finally {
-      await db.end();
     }
   });
 
@@ -67,12 +70,19 @@ describe("CategoryStore List tests", () => {
 
 describe("CategoryStore CRUD tests", () => {
 
-  let categoryId = null;
+  let db, context, categoryId;
+
+  beforeEach(async () => {
+    db = await models.init();
+    context = mockContext(db);
+  });
+
+  afterEach(async () => {
+    await db.end();
+    context = null;
+  });
 
   test("create category", async () => {
-    const db = await models.init();
-    const context = mockContext(db);
-
     try {
       const category = {
         display_name: "Test Category 123",
@@ -89,15 +99,10 @@ describe("CategoryStore CRUD tests", () => {
       categoryId = createdCategory.id;
     } catch (error) {
       expect(error).toBe(null);
-    } finally {
-      await db.end();
     }
   });
 
   test("read category", async () => {
-    const db = await models.init();
-    const context = mockContext(db);
-
     try {
       expect(categoryId).toBeDefined();
       const readCategory = await getCategory(categoryId, context);
@@ -114,15 +119,10 @@ describe("CategoryStore CRUD tests", () => {
       expect(readCategory[0].id).toBe(categoryId);
     } catch (error) {
       expect(error).toBe(null);
-    } finally {
-      await db.end();
     }
   });
 
   test("update category", async () => {
-    const db = await models.init();
-    const context = mockContext(db);
-
     try {
       expect(categoryId).toBeDefined();
       const updateCategoryObject = {
@@ -139,23 +139,16 @@ describe("CategoryStore CRUD tests", () => {
       expect(updatedCategoryCount[0]).toEqual(1);
     } catch (error) {
       expect(error).toBe(null);
-    } finally {
-      await db.end();
     }
   });
 
   test("delete category", async () => {
-    const db = await models.init();
-    const context = mockContext(db);
-
     try {
       expect(categoryId).toBeDefined();
       const deletedCategoryCount = await deleteCategory(categoryId, context);
       expect(deletedCategoryCount).toEqual(1);
     } catch (error) {
       expect(error).toBe(null);
-    } finally {
-      await db.end();
     }
   });
 

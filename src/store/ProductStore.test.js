@@ -18,10 +18,19 @@ beforeAll(() => {
 
 describe("ProductStore List tests", () => {
 
-  test("get product list", async () => {
-    const db = await models.init();
-    const context = mockContext(db);
+  let db, context;
 
+  beforeEach(async () => {
+    db = await models.init();
+    context = mockContext(db);
+  });
+
+  afterEach(async () => {
+    await db.end();
+    context = null;
+  });
+
+  test("get product list", async () => {
     try {
       const product = await getProduct(null, context);
       expect(product).toEqual(
@@ -36,14 +45,10 @@ describe("ProductStore List tests", () => {
       );
     } catch (error) {
       expect(error).toBe(null);
-    } finally {
-      await db.end();
     }
   });
 
   test("get product category list", async () => {
-    const db = await models.init();
-    const context = mockContext(db);
     const productObject = await db.Product.findOne({ where: { sku: "NG-001" }});
 
     try {
@@ -58,8 +63,6 @@ describe("ProductStore List tests", () => {
       );
     } catch (error) {
       expect(error).toBe(null);
-    } finally {
-      await db.end();
     }
   });
 
@@ -67,12 +70,19 @@ describe("ProductStore List tests", () => {
 
 describe("ProductStore CRUD tests", () => {
 
-  let productId = null;
+  let db, context, productId;
+
+  beforeEach(async () => {
+    db = await models.init();
+    context = mockContext(db);
+  });
+
+  afterEach(async () => {
+    await db.end();
+    context = null;
+  });
 
   test("create product", async () => {
-    const db = await models.init();
-    const context = mockContext(db);
-
     try {
       const product = {
         sku: "A-001",
@@ -93,15 +103,10 @@ describe("ProductStore CRUD tests", () => {
       productId = createdProduct.id;
     } catch (error) {
       expect(error).toBe(null);
-    } finally {
-      await db.end();
     }
   });
 
   test("read product", async () => {
-    const db = await models.init();
-    const context = mockContext(db);
-
     try {
       expect(productId).toBeDefined();
       const readProduct = await getProduct(productId, context);
@@ -120,15 +125,10 @@ describe("ProductStore CRUD tests", () => {
       expect(readProduct[0].id).toBe(productId);
     } catch (error) {
       expect(error).toBe(null);
-    } finally {
-      await db.end();
     }
   });
 
   test("update product", async () => {
-    const db = await models.init();
-    const context = mockContext(db);
-
     try {
       expect(productId).toBeDefined();
       const updateProductObject = {
@@ -145,23 +145,16 @@ describe("ProductStore CRUD tests", () => {
       expect(updatedProductCount[0]).toEqual(1);
     } catch (error) {
       expect(error).toBe(null);
-    } finally {
-      await db.end();
     }
   });
 
   test("delete product", async () => {
-    const db = await models.init();
-    const context = mockContext(db);
-
     try {
       expect(productId).toBeDefined();
       const deletedProductCount = await deleteProduct(productId, context);
       expect(deletedProductCount).toEqual(1);
     } catch (error) {
       expect(error).toBe(null);
-    } finally {
-      await db.end();
     }
   });
 
