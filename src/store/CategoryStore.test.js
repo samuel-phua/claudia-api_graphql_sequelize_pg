@@ -8,6 +8,12 @@ import {
   updateCategory,
   deleteCategory,
 } from "./CategoryStore";
+import {
+  validateCategory,
+  validateCategories,
+  validateProduct,
+  validateProducts,
+} from "./validate";
 
 beforeAll(() => {
   process.env = {
@@ -32,15 +38,8 @@ describe("CategoryStore List tests", () => {
 
   test("get category list", async () => {
     try {
-      const category = await getCategory(null, context);
-      expect(category).toEqual(
-        expect.arrayContaining([
-          expect.objectContaining({
-            display_name: expect.any(String),
-            display_order: expect.any(Number),
-          }),
-        ]),
-      );
+      const categories = await getCategory(null, context);
+      validateCategories(categories);
     } catch (error) {
       expect(error).toBe(null);
     }
@@ -51,16 +50,7 @@ describe("CategoryStore List tests", () => {
 
     try {
       const categoryProducts = await getCategoryProducts(categoryObject, context);
-      expect(categoryProducts).toEqual(
-        expect.arrayContaining([
-          expect.objectContaining({
-            sku: expect.any(String),
-            display_name: expect.any(String),
-            unit_description: expect.any(String),
-            unit_selling_price: expect.any(String), // JSON doesn't support float as a data type
-          }),
-        ]),
-      );
+      validateProducts(categoryProducts);
     } catch (error) {
       expect(error).toBe(null);
     }
@@ -89,13 +79,7 @@ describe("CategoryStore CRUD tests", () => {
         display_order: 999,
       };
       const createdCategory = await createCategory(category, context);
-      expect(createdCategory).toEqual(
-        expect.objectContaining({
-          id: expect.any(String),
-          display_name: expect.any(String),
-          display_order: expect.any(Number),
-        }),
-      );
+      validateCategory(createdCategory);
       categoryId = createdCategory.id;
     } catch (error) {
       expect(error).toBe(null);
@@ -106,15 +90,7 @@ describe("CategoryStore CRUD tests", () => {
     try {
       expect(categoryId).toBeDefined();
       const readCategory = await getCategory(categoryId, context);
-      expect(readCategory).toEqual(
-        expect.arrayContaining([
-          expect.objectContaining({
-            id: expect.any(String),
-            display_name: expect.any(String),
-            display_order: expect.any(Number),
-          }),
-        ]),
-      );
+      validateCategories(readCategory);
       expect(readCategory).toHaveLength(1);
       expect(readCategory[0].id).toBe(categoryId);
     } catch (error) {

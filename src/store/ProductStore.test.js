@@ -8,6 +8,12 @@ import {
   updateProduct,
   deleteProduct,
 } from "./ProductStore";
+import {
+  validateCategory,
+  validateCategories,
+  validateProduct,
+  validateProducts,
+} from "./validate";
 
 beforeAll(() => {
   process.env = {
@@ -32,17 +38,8 @@ describe("ProductStore List tests", () => {
 
   test("get product list", async () => {
     try {
-      const product = await getProduct(null, context);
-      expect(product).toEqual(
-        expect.arrayContaining([
-          expect.objectContaining({
-            sku: expect.any(String),
-            display_name: expect.any(String),
-            unit_description: expect.any(String),
-            unit_selling_price: expect.any(String), // JSON doesn't support float as a data type
-          }),
-        ]),
-      );
+      const products = await getProduct(null, context);
+      validateProducts(products);
     } catch (error) {
       expect(error).toBe(null);
     }
@@ -53,14 +50,7 @@ describe("ProductStore List tests", () => {
 
     try {
       const productCategories = await getProductCategories(productObject, context);
-      expect(productCategories).toEqual(
-        expect.arrayContaining([
-          expect.objectContaining({
-            display_name: expect.any(String),
-            display_order: expect.any(Number),
-          }),
-        ]),
-      );
+      validateCategories(productCategories);
     } catch (error) {
       expect(error).toBe(null);
     }
@@ -91,15 +81,7 @@ describe("ProductStore CRUD tests", () => {
         unit_selling_price: 0.01,
       };
       const createdProduct = await createProduct(product, context);
-      expect(createdProduct).toEqual(
-        expect.objectContaining({
-          id: expect.any(String),
-          sku: expect.any(String),
-          display_name: expect.any(String),
-          unit_description: expect.any(String),
-          unit_selling_price: expect.any(String), // JSON doesn't support float as a data type
-        }),
-      );
+      validateProduct(createdProduct);
       productId = createdProduct.id;
     } catch (error) {
       expect(error).toBe(null);
@@ -110,17 +92,7 @@ describe("ProductStore CRUD tests", () => {
     try {
       expect(productId).toBeDefined();
       const readProduct = await getProduct(productId, context);
-      expect(readProduct).toEqual(
-        expect.arrayContaining([
-          expect.objectContaining({
-            id: expect.any(String),
-            sku: expect.any(String),
-            display_name: expect.any(String),
-            unit_description: expect.any(String),
-            unit_selling_price: expect.any(String), // JSON doesn't support float as a data type
-          }),
-        ]),
-      );
+      validateProducts(readProduct);
       expect(readProduct).toHaveLength(1);
       expect(readProduct[0].id).toBe(productId);
     } catch (error) {
