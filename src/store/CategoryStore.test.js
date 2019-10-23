@@ -16,7 +16,7 @@ beforeAll(() => {
   };
 });
 
-describe("CategoryStore CRUD tests", () => {
+describe("CategoryStore List tests", () => {
 
   test("get category list", async () => {
     const db = await models.init();
@@ -56,6 +56,93 @@ describe("CategoryStore CRUD tests", () => {
           }),
         ]),
       );
+    } catch (error) {
+      expect(error).toBe(null);
+    } finally {
+      await db.end();
+    }
+  });
+
+});
+
+describe("CategoryStore CRUD tests", () => {
+
+  let categoryId = null;
+
+  test("create category", async () => {
+    const db = await models.init();
+    const context = mockContext(db);
+
+    try {
+      const category = {
+        display_name: "Test Category 123",
+        display_order: 999,
+      };
+      const createdCategory = await createCategory(category, context);
+      expect(createdCategory).toEqual(
+        expect.objectContaining({
+          id: expect.any(String),
+          display_name: expect.any(String),
+          display_order: expect.any(Number),
+        }),
+      );
+      categoryId = createdCategory.id;
+    } catch (error) {
+      expect(error).toBe(null);
+    } finally {
+      await db.end();
+    }
+  });
+
+  test("read category", async () => {
+    const db = await models.init();
+    const context = mockContext(db);
+
+    try {
+      expect(categoryId).toBeDefined();
+      const readCategory = await getCategory(categoryId, context);
+      expect(readCategory).toEqual(
+        expect.objectContaining({
+          id: expect.any(String),
+          display_name: expect.any(String),
+          display_order: expect.any(Number),
+        }),
+      );
+      expect(readCategory.id).toBe(categoryId);
+    } catch (error) {
+      expect(error).toBe(null);
+    } finally {
+      await db.end();
+    }
+  });
+
+  test("update category", async () => {
+    const db = await model.init();
+    const context = mockContext(db);
+
+    try {
+      expect(categoryId).toBeDefined();
+      const updateCategoryObject = {
+        id: categoryId,
+        display_order: 998,
+      };
+      const updatedCategoryCount = await updateCategory(categoryId, context);
+      expect(updatedCategoryCount).toEqual(1);
+    } catch (error) {
+      expect(error).toBe(null);
+    } finally {
+      await db.end();
+    }
+  });
+
+  test("delete category", async () => {
+    const db = await models.init();
+    const context = mockContext(db);
+
+    try {
+      expect(categoryId).toBeDefined();
+      const deletedCategoryCount = await deleteCategory(categoryId, context);
+      expect(deletedCategoryCount).toEqual(1);
     } catch (error) {
       expect(error).toBe(null);
     } finally {
