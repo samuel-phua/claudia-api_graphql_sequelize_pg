@@ -13,7 +13,9 @@ export const getProduct = (productId, context) => {
     ],
   };
   if (is.existy(productId)) {
-    options.where.id = productId;
+    options.where = {
+      id: productId,
+    };
   }
   return pg.Product.findAll(options).then((result) => {
     log.info("getProduct completed successfully", {
