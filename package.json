@@ -25,7 +25,7 @@
     "sequelize-cli": "^5.5.1"
   },
   "scripts": {
-    "transpile": "babel src -d bin && babel models -d bin/models",
+    "transpile": "babel src -d bin --ignore \"**/*.test.js\" && babel models -d bin/models",
     "setup": "yarn run transpile && claudia create --api-module bin/api --region ap-southeast-1 --version development --set-env-from-json env.json --timeout 4 && claudia set-version --version production",
     "deploy": "yarn run transpile && claudia update --version development && claudia set-version --version production",
     "deploy-dev": "yarn run transpile && claudia update --version development --timeout 4",

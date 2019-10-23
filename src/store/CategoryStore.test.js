@@ -102,13 +102,16 @@ describe("CategoryStore CRUD tests", () => {
       expect(categoryId).toBeDefined();
       const readCategory = await getCategory(categoryId, context);
       expect(readCategory).toEqual(
-        expect.objectContaining({
-          id: expect.any(String),
-          display_name: expect.any(String),
-          display_order: expect.any(Number),
-        }),
+        expect.arrayContaining([
+          expect.objectContaining({
+            id: expect.any(String),
+            display_name: expect.any(String),
+            display_order: expect.any(Number),
+          }),
+        ]),
       );
-      expect(readCategory.id).toBe(categoryId);
+      expect(readCategory).toHaveLength(1);
+      expect(readCategory[0].id).toBe(categoryId);
     } catch (error) {
       expect(error).toBe(null);
     } finally {
@@ -117,7 +120,7 @@ describe("CategoryStore CRUD tests", () => {
   });
 
   test("update category", async () => {
-    const db = await model.init();
+    const db = await models.init();
     const context = mockContext(db);
 
     try {
@@ -126,8 +129,14 @@ describe("CategoryStore CRUD tests", () => {
         id: categoryId,
         display_order: 998,
       };
-      const updatedCategoryCount = await updateCategory(categoryId, context);
-      expect(updatedCategoryCount).toEqual(1);
+      const updatedCategoryCount = await updateCategory(updateCategoryObject, context);
+      expect(updatedCategoryCount).toEqual(
+        expect.arrayContaining([
+          expect.any(Number),
+        ]),
+      );
+      expect(updatedCategoryCount).toHaveLength(1);
+      expect(updatedCategoryCount[0]).toEqual(1);
     } catch (error) {
       expect(error).toBe(null);
     } finally {

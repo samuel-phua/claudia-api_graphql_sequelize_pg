@@ -11,6 +11,4 @@ const presets = [
 
 const plugins = [ "add-module-exports" ];
 
-const ignore = [ "**/*.test.js" ];
-
-module.exports = { presets, plugins, ignore };
+module.exports = { presets, plugins };

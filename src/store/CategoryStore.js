@@ -13,7 +13,9 @@ export const getCategory = (categoryId, context) => {
     ],
   };
   if (is.existy(categoryId)) {
-    options.where.id = categoryId;
+    options.where = {
+      id: categoryId,
+    };
   }
   return pg.Category.findAll(options).then((result) => {
     log.info("getCategory completed successfully", {
