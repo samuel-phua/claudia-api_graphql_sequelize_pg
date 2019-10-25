@@ -7,8 +7,8 @@ if (is.not.existy(utils)) {
 function getProductCategoryModel(stage, Sequelize) {
   return {
     ...utils.getModelIdField("id", true, Sequelize),
-    ...utils.getModelReferenceField(stage, "category", "id", Sequelize),
-    ...utils.getModelReferenceField(stage, "product", "id", Sequelize),
+    ...utils.getModelReferenceField(stage, "category", "id", true, Sequelize),
+    ...utils.getModelReferenceField(stage, "product", "id", true, Sequelize),
     ...utils.getModelTimestampColumnFields(Sequelize),
   };
 }

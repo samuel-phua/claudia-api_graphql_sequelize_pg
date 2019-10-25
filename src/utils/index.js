@@ -8,6 +8,7 @@ import {
   getModelTimestampColumnFields,
   getModelReferenceField,
   getModelIdField,
+  getModelIdIntegerField,
   getModelConfig,
 } from "./sequelize";
 import {
@@ -22,6 +23,7 @@ export {
   getModelTimestampColumnFields,
   getModelReferenceField,
   getModelIdField,
+  getModelIdIntegerField,
   getModelConfig,
   mapArrayItemProperty,
 };
