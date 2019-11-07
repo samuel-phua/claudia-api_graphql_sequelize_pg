@@ -29,6 +29,12 @@ export const getModelTimestampColumnFields = (Sequelize) => {
   };
 };
 
+const primaryKeyConfig = (isPrimaryKey) => {
+  if (isPrimaryKey === true) {
+    return { primaryKey: true };
+  } else return {};
+}
+
 const referencesFieldConfig = (stage, tableName, referenceTableId, migration) => {
   if (migration === true) {
     return {
@@ -44,12 +50,25 @@ const referencesFieldConfig = (stage, tableName, referenceTableId, migration) =>
   }
 };
 
-export const getModelReferenceField = (stage, tableName, referenceTableId, migration, Sequelize) => {
+export const getModelReferenceField = (stage, tableName, referenceTableId, isPrimaryKey, migration, Sequelize) => {
   const columnName = `${tableName}_${referenceTableId}`;
   let result = {};
   result[columnName] = {
     type: Sequelize.UUID,
     allowNull: false,
+    ...primaryKeyConfig(isPrimaryKey),
+    ...referencesFieldConfig(stage, tableName, referenceTableId, migration),
+  };
+  return result;
+};
+
+export const getModelReferenceIntegerField = (stage, tableName, referenceTableId, isPrimaryKey, migration, Sequelize) => {
+  const columnName = `${tableName}_${referenceTableId}`;
+  let result = {};
+  result[columnName] = {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    ...primaryKeyConfig(isPrimaryKey),
     ...referencesFieldConfig(stage, tableName, referenceTableId, migration),
   };
   return result;

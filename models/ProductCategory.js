@@ -1,5 +1,5 @@
 import {
-  getModelIdField,
+  getModelReferenceField,
   getModelConfig,
 } from "../bin/utils";
 
@@ -7,9 +7,8 @@ module.exports = (sequelize, DataTypes) => {
   const nodeEnv = process.env.NODE_ENV || "development";
   const productCategoryTableName = process.env[`${nodeEnv}_product_category_tbl_name`];
   let ProductCategory = sequelize.define("ProductCategory", {
-    ...getModelIdField("id", false, DataTypes),
-    category_id: DataTypes.UUID,
-    product_id: DataTypes.UUID,
+    ...getModelReferenceField(stage, "category", "id", true, false, DataTypes),
+    ...getModelReferenceField(stage, "product", "id", true, false, DataTypes),
   }, {
     ...getModelConfig(productCategoryTableName),
   });
