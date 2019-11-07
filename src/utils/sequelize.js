@@ -2,6 +2,17 @@ export const getTimestampColumnsAlterTypeSql = (tableName) => {
   return `ALTER TABLE ${tableName} ALTER COLUMN created_at TYPE timestamp(0) with time zone, ALTER COLUMN updated_at TYPE timestamp(0) with time zone, ALTER COLUMN deleted_at TYPE timestamp(0) with time zone`;
 };
 
+export const getAlterTimestampColumnsTypeSql = (tableName, columnNames) => {
+  let result = `ALTER TABLE ${tableName} `;
+  if (Array.isArray(columnNames) && columnNames.length > 0) {
+    result = columnNames.reduce((accumulator, currentValue) => {
+      return accumulator += `ALTER COLUMN ${currentValue} TYPE timestamp(0) with time zone, `;
+    }, result);
+    result = result.substring(0, result.length - 2);
+    return result;
+  } else return "";
+};
+
 export const getModelTimestampColumnFields = (Sequelize) => {
   return {
     created_at: {

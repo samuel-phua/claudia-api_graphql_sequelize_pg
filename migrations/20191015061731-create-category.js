@@ -23,9 +23,10 @@ module.exports = {
       queryInterface.createTable(devTableName, getCategoryModel("dev", Sequelize)),
       queryInterface.createTable(prodTableName, getCategoryModel("prod", Sequelize)),
     ]);
+    const timestampColumnNames = ["created_at", "updated_at", "deleted_at"];
     await Promise.all([
-      queryInterface.sequelize.query(utils.getTimestampColumnsAlterTypeSql(devTableName)),
-      queryInterface.sequelize.query(utils.getTimestampColumnsAlterTypeSql(prodTableName)),
+      queryInterface.sequelize.query(utils.getAlterTimestampColumnsTypeSql(devTableName, timestampColumnNames)),
+      queryInterface.sequelize.query(utils.getAlterTimestampColumnsTypeSql(prodTableName, timestampColumnNames)),
     ]);
   },
   down: async (queryInterface, Sequelize) => {
