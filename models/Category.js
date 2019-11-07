@@ -6,17 +6,19 @@ import categoryFields from "./fields/CategoryFields";
 
 module.exports = (sequelize, DataTypes) => {
   const nodeEnv = process.env.NODE_ENV || "development";
-  const categoryTableName = process.env[`${nodeEnv}_category_tbl_name`];
+  const stageName = process.env[`${nodeEnv}StageName`];
+  const tableName = process.env["categoryTableName"];
+  const idName = process.env.idName;
   let Category = sequelize.define("Category", {
-    ...getModelIdField("id", false, DataTypes),
+    ...getModelIdField(idName, false, DataTypes),
     ...categoryFields(DataTypes),
   }, {
-    ...getModelConfig(categoryTableName),
+    ...getModelConfig(`${stageName}_${tableName}`),
   });
   Category.associate = (models) => {
     models.Category.hasMany(models.ProductCategory, {
-      foreignKey: "category_id",
-      sourceKey: "id",
+      foreignKey: `${tableName}_${idName}`,
+      sourceKey: idName,
     });
   };
   return Category;

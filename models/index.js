@@ -12,7 +12,7 @@ const modelModules = [
 
 const init = async () => {
   const nodeEnv = process.env.NODE_ENV || "development";
-  const dbConnStr = process.env[`${nodeEnv}_db_conn_str`];
+  const dbConnStr = process.env[`${nodeEnv}DbConnectionString`];
   const sequelize = new Sequelize(dbConnStr, {
     logging: false,
     dialect: "postgres",

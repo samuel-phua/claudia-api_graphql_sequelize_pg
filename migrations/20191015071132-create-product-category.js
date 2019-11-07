@@ -1,23 +1,31 @@
 "use strict";
 const is = require("is_js");
+const env = require("../env.json");
+const devStageName = env.developmentStageName;
+const prodStageName = env.productionStageName;
+const tableName = env.productCategoryTableName;
+const devTableName = `${devStageName}_${tableName}`;
+const prodTableName = `${prodStageName}_${tableName}`;
+const idName = env.idName;
+
 let utils = require("../bin/utils");
 if (is.not.existy(utils)) {
   utils = require("../src/utils");
 }
+
 function getProductCategoryModel(stage, Sequelize) {
   return {
-    ...utils.getModelReferenceField(stage, "category", "id", true, true, Sequelize),
-    ...utils.getModelReferenceField(stage, "product", "id", true, true, Sequelize),
+    ...utils.getModelReferenceField(stage, productTableName, idName, true, true, Sequelize),
+    ...utils.getModelReferenceField(stage, env.categoryTableName, idName, true, true, Sequelize),
     ...utils.getModelTimestampColumnFields(Sequelize),
   };
 }
-const devTableName = "dev_product_category";
-const prodTableName = "prod_product_category";
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await Promise.all([
-      queryInterface.createTable(devTableName, getProductCategoryModel("dev", Sequelize)),
-      queryInterface.createTable(prodTableName, getProductCategoryModel("prod", Sequelize)),
+      queryInterface.createTable(devTableName, getProductCategoryModel(devStageName, Sequelize)),
+      queryInterface.createTable(prodTableName, getProductCategoryModel(prodStageName, Sequelize)),
     ]);
     const timestampColumnNames = ["created_at", "updated_at", "deleted_at"];
     await Promise.all([
