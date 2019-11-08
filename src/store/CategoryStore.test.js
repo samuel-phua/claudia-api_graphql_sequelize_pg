@@ -3,7 +3,6 @@ import models from "../../models";
 import { mockContext } from "../utils";
 import {
   getCategory,
-  getCategoryProducts,
   createCategory,
   updateCategory,
   deleteCategory,
@@ -45,12 +44,12 @@ describe("CategoryStore List tests", () => {
     }
   });
 
-  test("get category product list", async () => {
-    const categoryObject = await db.Category.findOne({ where: { display_order: 0 }});
+  test("get category list by product", async () => {
+    const productObject = await db.Product.findOne({ where: { sku: "NG-001" }});
 
     try {
-      const categoryProducts = await getCategoryProducts(categoryObject, context);
-      validateProducts(categoryProducts);
+      const categories = await getCategory({ productId: productObject.id }, context);
+      validateCategories(categories);
     } catch (error) {
       expect(error).toBe(null);
     }
@@ -89,10 +88,10 @@ describe("CategoryStore CRUD tests", () => {
   test("read category", async () => {
     try {
       expect(categoryId).toBeDefined();
-      const readCategory = await getCategory(categoryId, context);
-      validateCategories(readCategory);
-      expect(readCategory).toHaveLength(1);
-      expect(readCategory[0].id).toBe(categoryId);
+      const readCategory = await getCategory({ id: categoryId }, context);
+      validateCategory(readCategory);
+      // expect(readCategory).toHaveLength(1);
+      expect(readCategory.id).toBe(categoryId);
     } catch (error) {
       expect(error).toBe(null);
     }

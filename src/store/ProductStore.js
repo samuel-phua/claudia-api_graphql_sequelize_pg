@@ -5,29 +5,72 @@ import {
   mapArrayItemProperty,
 } from "../utils";
 
-export const getProduct = (productId, context) => {
-  const pg = context.pg;
-  let options = {
-    order: [
-      ["sku", "ASC"],
-    ],
-  };
-  if (is.existy(productId)) {
-    options.where = {
-      id: productId,
+export const getProduct = (filter, context) => {
+  if (is.existy(filter.id)) {
+    return getProductById(filter.id, context);
+  } else if (is.existy(filter.categoryId)) {
+    return getProductByCategory(filter.categoryId, context);
+  } else {
+    const options = {
+      order: [
+        ["sku", "ASC"],
+      ],
     };
+    return context.pg.Product.findAll(options).then((result) => {
+      log.info("getProduct completed successfully", {
+        ...getContextForLog(context),
+        options,
+        result,
+      });
+      if (is.not.array(result)) {
+        return null;
+      } else {
+        return result;
+      }
+    }).catch((error) => {
+      log.error("getProduct failed to complete", {
+        ...getContextForLog(context),
+        options,
+        error,
+      });
+      return null;
+    });
   }
-  return pg.Product.findAll(options).then((result) => {
+};
+
+const getProductById = (id, context) => {
+  return context.pg.Product.findByPk(id).then((result) => {
+    log.info("getProduct completed successfully", {
+      ...getContextForLog(context),
+      { primaryKey: id },
+      result,
+    });
+    return result;
+  }).catch((error) => {
+    log.error("getProduct failed to complete", {
+      ...getContextForLog(context),
+      { primaryKey: id },
+      error,
+    });
+    return null;
+  });
+};
+
+const getProductByCategory = (categoryId, context) => {
+  const pg = context.pg;
+  const options = {
+    where: {
+      category_id: categoryId,
+    },
+    include: [ pg.Product ],
+  };
+  return pg.ProductCategory.findAll(options).then((result) => {
     log.info("getProduct completed successfully", {
       ...getContextForLog(context),
       options,
       result,
     });
-    if (is.not.array(result)) {
-      return null;
-    } else {
-      return result;
-    }
+    return mapArrayItemProperty(result, "Product");
   }).catch((error) => {
     log.error("getProduct failed to complete", {
       ...getContextForLog(context),
@@ -38,30 +81,30 @@ export const getProduct = (productId, context) => {
   });
 };
 
-export const getProductCategories = (product, context) => {
-  const pg = context.pg;
-  const options = {
-    where: {
-      product_id: product.id,
-    },
-    include: [ pg.Category ],
-  };
-  return pg.ProductCategory.findAll(options).then((result) => {
-    log.info("getProductCategories completed successfully", {
-      ...getContextForLog(context),
-      options,
-      result,
-    });
-    return mapArrayItemProperty(result, "Category");
-  }).catch((error) => {
-    log.error("getProductCategories failed to complete", {
-      ...getContextForLog(context),
-      options,
-      error,
-    });
-    return null;
-  });
-};
+// export const getProductCategories = (product, context) => {
+//   const pg = context.pg;
+//   const options = {
+//     where: {
+//       product_id: product.id,
+//     },
+//     include: [ pg.Category ],
+//   };
+//   return pg.ProductCategory.findAll(options).then((result) => {
+//     log.info("getProductCategories completed successfully", {
+//       ...getContextForLog(context),
+//       options,
+//       result,
+//     });
+//     return mapArrayItemProperty(result, "Category");
+//   }).catch((error) => {
+//     log.error("getProductCategories failed to complete", {
+//       ...getContextForLog(context),
+//       options,
+//       error,
+//     });
+//     return null;
+//   });
+// };
 
 export const createProduct = (product, context) => {
   const pg = context.pg;

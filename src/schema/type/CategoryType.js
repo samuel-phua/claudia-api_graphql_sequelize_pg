@@ -5,7 +5,7 @@ import {
 import idField from "../fields/IdField";
 import categoryFields from "../fields/CategoryFields";
 import productBaseType from "./ProductBaseType";
-import { getCategoryProducts } from "../../store";
+import { getProduct } from "../../store";
 
 export default new GraphQLObjectType({
   name: "Category",
@@ -14,7 +14,7 @@ export default new GraphQLObjectType({
     ...categoryFields,
     products: {
       type: new GraphQLList(productBaseType),
-      resolve: (source, args, context) => getCategoryProducts(source, context),
+      resolve: (source, args, context) => getProduct({ categoryId: source.id }, context),
     },
   },
 });

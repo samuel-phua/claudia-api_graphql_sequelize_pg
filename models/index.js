@@ -1,12 +1,12 @@
 import pg from "pg";
 delete pg.native;
 import Sequelize from "sequelize";
-import Category from "./Category";
 import Product from "./Product";
+import Category from "./Category";
 import ProductCategory from "./ProductCategory";
 const modelModules = [
-  Category,
   Product,
+  Category,
   ProductCategory,
 ];
 

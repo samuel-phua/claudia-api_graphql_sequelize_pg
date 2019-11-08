@@ -5,29 +5,72 @@ import {
   mapArrayItemProperty,
 } from "../utils";
 
-export const getCategory = (categoryId, context) => {
-  const pg = context.pg;
-  let options = {
-    order: [
-      ["display_order", "ASC"],
-    ],
-  };
-  if (is.existy(categoryId)) {
-    options.where = {
-      id: categoryId,
+export const getCategory = (filter, context) => {
+  if (is.existy(filter.id)) {
+    return getCategoryById(filter.id, context);
+  } else if (is.existy(filter.productId)) {
+    return getCategoryByProduct(filter.productId, context);
+  } else {
+    const options = {
+      order: [
+        ["display_order", "ASC"],
+      ],
     };
+    return context.pg.Category.findAll(options).then((result) => {
+      log.info("getCategory completed successfully", {
+        ...getContextForLog(context),
+        options,
+        result,
+      });
+      if (is.not.array(result)) {
+        return null;
+      } else {
+        return result;
+      }
+    }).catch((error) => {
+      log.error("getCategory failed to complete", {
+        ...getContextForLog(context),
+        options,
+        error,
+      });
+      return null;
+    });
   }
-  return pg.Category.findAll(options).then((result) => {
+};
+
+const getCategoryById = (id, context) => {
+  return context.pg.Category.findByPk(id).then((result) => {
+    log.info("getCategory completed successfully", {
+      ...getContextForLog(context),
+      { primaryKey: id },
+      result,
+    });
+    return result;
+  }).catch((error) => {
+    log.error("getCategory failed to complete", {
+      ...getContextForLog(context),
+      { primaryKey: id },
+      error,
+    });
+    return null;
+  });
+};
+
+const getCategoryByProduct = (productId, context) => {
+  const pg = context.pg;
+  const options = {
+    where: {
+      product_id: productId,
+    },
+    include: [ pg.Category ],
+  };
+  return pg.ProductCategory.findAll(options).then((result) => {
     log.info("getCategory completed successfully", {
       ...getContextForLog(context),
       options,
       result,
     });
-    if (is.not.array(result)) {
-      return null;
-    } else {
-      return result;
-    }
+    return mapArrayItemProperty(result, "Category");
   }).catch((error) => {
     log.error("getCategory failed to complete", {
       ...getContextForLog(context),
@@ -38,30 +81,30 @@ export const getCategory = (categoryId, context) => {
   });
 };
 
-export const getCategoryProducts = (category, context) => {
-  const pg = context.pg;
-  const options = {
-    where: {
-      category_id: category.id,
-    },
-    include: [ pg.Product ],
-  };
-  return pg.ProductCategory.findAll(options).then((result) => {
-    log.info("getCategoryProducts completed successfully", {
-      ...getContextForLog(context),
-      options,
-      result,
-    });
-    return mapArrayItemProperty(result, "Product");
-  }).catch((error) => {
-    log.error("getCategoryProducts failed to complete", {
-      ...getContextForLog(context),
-      options,
-      error,
-    });
-    return null;
-  });
-};
+// export const getCategoryProducts = (category, context) => {
+//   const pg = context.pg;
+//   const options = {
+//     where: {
+//       category_id: category.id,
+//     },
+//     include: [ pg.Product ],
+//   };
+//   return pg.ProductCategory.findAll(options).then((result) => {
+//     log.info("getCategoryProducts completed successfully", {
+//       ...getContextForLog(context),
+//       options,
+//       result,
+//     });
+//     return mapArrayItemProperty(result, "Product");
+//   }).catch((error) => {
+//     log.error("getCategoryProducts failed to complete", {
+//       ...getContextForLog(context),
+//       options,
+//       error,
+//     });
+//     return null;
+//   });
+// };
 
 export const createCategory = (category, context) => {
   const pg = context.pg;

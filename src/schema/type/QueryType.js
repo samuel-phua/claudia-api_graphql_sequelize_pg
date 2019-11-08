@@ -17,20 +17,20 @@ export default new GraphQLObjectType({
     category: {
       type: new GraphQLList(categoryType),
       args: {
-        categoryId: {
+        id: {
           type: GraphQLString,
         },
       },
-      resolve: (source, args, context) => getCategory(args.categoryId, context),
+      resolve: (source, args, context) => getCategory({ id: args.id }, context),
     },
     product: {
       type: new GraphQLList(productType),
       args: {
-        productId: {
+        id: {
           type: GraphQLString,
         },
       },
-      resolve: (source, args, context) => getProduct(args.productId, context),
+      resolve: (source, args, context) => getProduct({ id: args.id }, context),
     },
   },
 });
