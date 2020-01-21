@@ -8,6 +8,8 @@
   "dependencies": {
     "claudia-api-builder": "^4.1.2",
     "graphql": "^14.5.8",
+    "graphql-iso-date": "^3.6.1",
+    "graphql-type-json": "^0.3.1",
     "is_js": "^0.9.0",
     "lambda-log": "^2.3.1",
     "pg": "^7.12.1",
