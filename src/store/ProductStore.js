@@ -15,6 +15,7 @@ export const getProduct = (filter, context) => {
       order: [
         ["sku", "ASC"],
       ],
+      limit: parseInt(process.env["defaultListSizeLimit"], 10),
     };
     return context.pg.Product.findAll(options).then((result) => {
       log.info("getProduct completed successfully", {

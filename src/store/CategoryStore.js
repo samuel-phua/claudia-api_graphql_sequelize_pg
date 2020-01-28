@@ -15,6 +15,7 @@ export const getCategory = (filter, context) => {
       order: [
         ["display_order", "ASC"],
       ],
+      limit: parseInt(process.env["defaultListSizeLimit"], 10),
     };
     return context.pg.Category.findAll(options).then((result) => {
       log.info("getCategory completed successfully", {
