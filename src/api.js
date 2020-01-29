@@ -7,6 +7,20 @@ import log from "lambda-log";
 
 const api = new ApiBuilder;
 
+// const getRegisterAuthorizerOptions = (lambdaName) => {
+//   return {
+//     lambdaName,
+//     lambdaVersion: false,
+//     credentials: "arn:aws:iam::XXXXXXXXXXXX:role/Auth0Integration",
+//     type: "TOKEN",
+//     headerName: "Authorization",
+//     validationExpression: "^Bearer [-0-9a-zA-z\.]*$",
+//     resultTtl: 3600,
+//   };
+// };
+//
+// api.registerAuthorizer("adminCustomAuthorizer", getRegisterAuthorizerOptions("adminJwtRsaCustomAuthorizer"));
+
 // override default access-control-allow-origin headers
 api.corsHeaders("Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Api-Version");
 
