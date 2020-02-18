@@ -28,7 +28,7 @@
   },
   "scripts": {
     "transpile": "babel src -d bin --ignore \"**/*.test.js\" && babel models -d bin/models",
-    "setup": "yarn run transpile && claudia create --region ap-southeast-1 --api-module bin/api --version development --role arn:aws:iam::123456789012:role/FileConverter --runtime nodejs12.x --timeout 4 --security-group-ids sg-565a1632 --subnet-ids subnet-e5e13c81,subnet-416da237,subnet-6f457129 --set-env-from-json env.json && claudia set-version --version production",
+    "setup": "yarn run transpile && claudia create --region ap-southeast-1 --api-module bin/api --version development --role arn:aws:iam::123456789012:role/FileConverter --runtime nodejs12.x --memory 3008 --timeout 4 --security-group-ids sg-565a1632 --subnet-ids subnet-e5e13c81,subnet-416da237,subnet-6f457129 --set-env-from-json env.json && claudia set-version --version production",
     "deploy": "yarn run transpile && claudia update --version development && claudia set-version --version production",
     "deploy-dev": "yarn run transpile && claudia update --version development --timeout 4",
     "update-prod": "claudia set-version --version production",
