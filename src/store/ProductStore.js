@@ -18,11 +18,13 @@ export const getProduct = (filter, context) => {
       limit: parseInt(process.env["defaultListSizeLimit"], 10),
     };
     return context.pg.Product.findAll(options).then((result) => {
-      log.info("getProduct completed successfully", {
-        ...getContextForLog(context),
-        options,
-        result,
-      });
+      if (context.apiGatewayContext.stage === "development") {
+        log.info("getProduct completed successfully", {
+          ...getContextForLog(context),
+          options,
+          result,
+        });
+      }
       if (is.not.array(result)) {
         return null;
       } else {
@@ -41,11 +43,13 @@ export const getProduct = (filter, context) => {
 
 const getProductById = (id, context) => {
   return context.pg.Product.findByPk(id).then((result) => {
-    log.info("getProduct completed successfully", {
-      ...getContextForLog(context),
-      { primaryKey: id },
-      result,
-    });
+    if (context.apiGatewayContext.stage === "development") {
+      log.info("getProduct completed successfully", {
+        ...getContextForLog(context),
+        { primaryKey: id },
+        result,
+      });
+    }
     return result;
   }).catch((error) => {
     log.error("getProduct failed to complete", {
@@ -66,11 +70,13 @@ const getProductByCategory = (categoryId, context) => {
     include: [ pg.Product ],
   };
   return pg.ProductCategory.findAll(options).then((result) => {
-    log.info("getProduct completed successfully", {
-      ...getContextForLog(context),
-      options,
-      result,
-    });
+    if (context.apiGatewayContext.stage === "development") {
+      log.info("getProduct completed successfully", {
+        ...getContextForLog(context),
+        options,
+        result,
+      });
+    }
     return mapArrayItemProperty(result, "Product");
   }).catch((error) => {
     log.error("getProduct failed to complete", {
@@ -91,11 +97,13 @@ const getProductByCategory = (categoryId, context) => {
 //     include: [ pg.Category ],
 //   };
 //   return pg.ProductCategory.findAll(options).then((result) => {
-//     log.info("getProductCategories completed successfully", {
-//       ...getContextForLog(context),
-//       options,
-//       result,
-//     });
+//     if (context.apiGatewayContext.stage === "development") {
+//       log.info("getProductCategories completed successfully", {
+//         ...getContextForLog(context),
+//         options,
+//         result,
+//       });
+//     }
 //     return mapArrayItemProperty(result, "Category");
 //   }).catch((error) => {
 //     log.error("getProductCategories failed to complete", {
@@ -111,12 +119,14 @@ export const createProduct = (product, context) => {
   const pg = context.pg;
   const fields = ["sku", "display_name", "unit_description", "unit_selling_price"];
   return pg.Product.create(product, { fields }).then((result) => {
-    log.info("createProduct completed successfully", {
-      ...getContextForLog(context),
-      product,
-      fields,
-      result,
-    });
+    if (context.apiGatewayContext.stage === "development") {
+      log.info("createProduct completed successfully", {
+        ...getContextForLog(context),
+        product,
+        fields,
+        result,
+      });
+    }
     return result;
   }).catch((error) => {
     log.error("createProduct failed to complete", {
@@ -139,12 +149,14 @@ export const updateProduct = (product, context) => {
     fields,
   };
   return pg.Product.update(product, options).then((result) => {
-    log.info("updateProduct completed successfully", {
-      ...getContextForLog(context),
-      product,
-      options,
-      result,
-    });
+    if (context.apiGatewayContext.stage === "development") {
+      log.info("updateProduct completed successfully", {
+        ...getContextForLog(context),
+        product,
+        options,
+        result,
+      });
+    }
     return result;
   }).catch((error) => {
     log.error("updateProduct failed to complete", {
@@ -164,11 +176,13 @@ export const deleteProduct = (productId, context) => {
     }
   };
   return pg.Product.destroy(options).then((result) => {
-    log.info("deleteProduct completed successfully", {
-      ...getContextForLog(context),
-      options,
-      result,
-    });
+    if (context.apiGatewayContext.stage === "development") {
+      log.info("deleteProduct completed successfully", {
+        ...getContextForLog(context),
+        options,
+        result,
+      });
+    }
     return result;
   }).catch((error) => {
     log.error("deleteProduct failed to complete", {
