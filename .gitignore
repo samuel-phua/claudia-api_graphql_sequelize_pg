@@ -67,5 +67,5 @@ env.json
 bin
 
 # Sequelize config file
-config/*
-!config/config.example.js
+src/config/*
+!src/config/config.example.js
