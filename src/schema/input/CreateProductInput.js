@@ -1,9 +1,7 @@
-import {
-  GraphQLInputObjectType,
-} from "graphql";
-import productFields from "../fields/productFields";
+import { GraphQLInputObjectType } from 'graphql';
+import productFields from '../fields/ProductFields';
 
 export default new GraphQLInputObjectType({
-  name: "CreateProductInput",
+  name: 'CreateProductInput',
   fields: productFields,
 });

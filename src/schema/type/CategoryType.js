@@ -1,14 +1,11 @@
-import {
-  GraphQLList,
-  GraphQLObjectType,
-} from "graphql";
-import idField from "../fields/IdField";
-import categoryFields from "../fields/CategoryFields";
-import productBaseType from "./ProductBaseType";
-import { getProduct } from "../../store";
+import { GraphQLList, GraphQLObjectType } from 'graphql';
+import idField from '../fields/IdField';
+import categoryFields from '../fields/CategoryFields';
+import productBaseType from './ProductBaseType';
+import { getProduct } from '../../store';
 
 export default new GraphQLObjectType({
-  name: "Category",
+  name: 'Category',
   fields: {
     ...idField,
     ...categoryFields,

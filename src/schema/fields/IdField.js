@@ -1,7 +1,4 @@
-import {
-  GraphQLNonNull,
-  GraphQLID,
-} from "graphql";
+import { GraphQLNonNull, GraphQLID } from 'graphql';
 
 export default {
   id: {

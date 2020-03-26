@@ -1,15 +1,17 @@
-export const getContext = (db, request) => {
+export const getContext = (db, request, applicationName) => {
   return {
     pg: db,
     env: request.env,
     apiGatewayContext: request.context,
+    authorizer: request.context.authorizer,
     lambdaContext: request.lambdaContext,
+    applicationName,
   };
 };
 
 export const getContextForLog = (context) => {
   return {
-    // nodeEnvironment: process.env.NODE_ENV,
+    applicationName: context.applicationName,
     apiGatewayMethod: context.apiGatewayContext.method,
     apiGatewayStage: context.apiGatewayContext.stage,
     apiGatewaySourceIP: context.apiGatewayContext.sourceIp,
@@ -19,6 +21,11 @@ export const getContextForLog = (context) => {
     apiGatewayUserArn: context.apiGatewayContext.userArn,
     apiGatewayCaller: context.apiGatewayContext.caller,
     apiGatewayApiKey: context.apiGatewayContext.apiKey,
+    authorizerPrincipalId: context.authorizer.principalId,
+    authorizerContextScope: context.authorizer.scope,
+    authorizerContextNickname: context.authorizer.nickname,
+    authorizerContextEmail: context.authorizer.email,
+    authorizerContextPhone: context.authorizer.phone,
     lambdaFunctionName: context.lambdaContext.functionName,
     lambdaFunctionVersion: context.lambdaContext.functionVersion,
     lambdaInvokedFunctionArn: context.lambdaContext.invokedFunctionArn,
@@ -42,12 +49,22 @@ export const mockContext = (db) => {
       caller: null,
       apiKey: null,
     },
+    authorizer: {
+      principalId: null,
+      scope: null,
+      nickname: null,
+      email: null,
+      phone: null,
+    },
     lambdaContext: {
       functionName: null,
       functionVersion: null,
       invokedFunctionArn: null,
       memoryLimitInMB: null,
-      getRemainingTimeInMillis: () => { return null; },
+      getRemainingTimeInMillis: () => {
+        return null;
+      },
     },
+    applicationName: null,
   };
 };

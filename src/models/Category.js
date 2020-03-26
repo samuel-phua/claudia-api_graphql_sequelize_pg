@@ -1,20 +1,21 @@
-import {
-  getModelIdField,
-  getModelConfig,
-} from "../bin/utils";
-import categoryFields from "./fields/CategoryFields";
+import { getModelIdField, getModelConfig } from '../utils';
+import categoryFields from './fields/CategoryFields';
 
-module.exports = (sequelize, DataTypes) => {
-  const nodeEnv = process.env.NODE_ENV || "development";
+const CategoryModel = (sequelize, DataTypes) => {
+  const nodeEnv = process.env.NODE_ENV || 'development';
   const stageName = process.env[`${nodeEnv}StageName`];
-  const tableName = process.env["categoryTableName"];
+  const tableName = process.env.categoryTableName;
   const idName = process.env.idName;
-  let Category = sequelize.define("Category", {
-    ...getModelIdField(idName, false, DataTypes),
-    ...categoryFields(DataTypes),
-  }, {
-    ...getModelConfig(`${stageName}_${tableName}`),
-  });
+  const Category = sequelize.define(
+    'Category',
+    {
+      ...getModelIdField(idName, false, DataTypes),
+      ...categoryFields(DataTypes),
+    },
+    {
+      ...getModelConfig(`${stageName}_${tableName}`),
+    },
+  );
   Category.associate = (models) => {
     models.Category.hasMany(models.ProductCategory, {
       foreignKey: `${tableName}_${idName}`,
@@ -23,3 +24,5 @@ module.exports = (sequelize, DataTypes) => {
   };
   return Category;
 };
+
+export default CategoryModel;
