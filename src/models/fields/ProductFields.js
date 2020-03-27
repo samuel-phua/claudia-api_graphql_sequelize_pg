@@ -13,7 +13,7 @@ export default (Sequelize) => {
       allowNull: false,
     },
     unit_selling_price: {
-      type: Sequelize.DECIMAL(10,2),
+      type: Sequelize.DECIMAL(10, 2),
       allowNull: false,
     },
   };

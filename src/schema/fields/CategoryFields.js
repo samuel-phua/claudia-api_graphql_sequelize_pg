@@ -1,8 +1,4 @@
-import {
-  GraphQLNonNull,
-  GraphQLInt,
-  GraphQLString,
-} from "graphql";
+import { GraphQLNonNull, GraphQLInt, GraphQLString } from 'graphql';
 
 export default {
   display_name: {

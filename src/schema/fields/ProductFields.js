@@ -1,8 +1,4 @@
-import {
-  GraphQLNonNull,
-  GraphQLFloat,
-  GraphQLString,
-} from "graphql";
+import { GraphQLNonNull, GraphQLFloat, GraphQLString } from 'graphql';
 
 export default {
   sku: {

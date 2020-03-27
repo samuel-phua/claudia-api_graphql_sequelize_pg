@@ -1,4 +1,4 @@
-const categorySchema = expect.objectContaining({
+export const categorySchema = expect.objectContaining({
   id: expect.any(String),
   display_name: expect.any(String),
   display_order: expect.any(Number),
@@ -9,12 +9,10 @@ export const validateCategory = (category) => {
 };
 
 export const validateCategories = (categories) => {
-  expect(categories).toEqual(
-    expect.arrayContaining([ categorySchema ]),
-  );
+  expect(categories).toEqual(expect.arrayContaining([categorySchema]));
 };
 
-const productSchema = expect.objectContaining({
+export const productSchema = expect.objectContaining({
   id: expect.any(String),
   sku: expect.any(String),
   display_name: expect.any(String),
@@ -27,7 +25,5 @@ export const validateProduct = (product) => {
 };
 
 export const validateProducts = (products) => {
- expect(products).toEqual(
-   expect.arrayContaining([ productSchema ]),
- );
+  expect(products).toEqual(expect.arrayContaining([productSchema]));
 };

@@ -5,6 +5,10 @@
   "repository": "https://samuel-phua@github.com/samuel-phua/claudia-api_graphql_sequelize_pg.git",
   "author": "Samuel Phua <samuel.phua.de.sheng@gmail.com>",
   "license": "MIT",
+  "engines": {
+    "node": ">=12.16.1",
+    "npm": ">=6.13.4"
+  },
   "dependencies": {
     "claudia-api-builder": "^4.1.2",
     "graphql": "^14.5.8",
@@ -19,25 +23,49 @@
     "@babel/cli": "^7.6.4",
     "@babel/core": "^7.6.4",
     "@babel/preset-env": "^7.6.3",
+    "acorn": "^7.1.1",
     "babel-jest": "^24.9.0",
     "babel-plugin-add-module-exports": "^1.0.2",
-    "claudia": "^5.9.0",
+    "claudia": "^5.12.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-config-prettier": "^6.10.1",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-jest": "^23.8.2",
+    "eslint-plugin-prettier": "^3.1.2",
+    "husky": "^4.2.3",
     "jest": "^24.9.0",
-    "ntl": "^4.0.0",
+    "lint-staged": "^10.0.9",
+    "minimist": "^1.2.5",
+    "prettier": "^2.0.2",
     "sequelize-cli": "^5.5.1"
   },
   "scripts": {
-    "transpile": "babel src -d bin --ignore \"**/*.test.js\" && babel models -d bin/models",
-    "setup": "yarn run transpile && claudia create --region ap-southeast-1 --api-module bin/api --version development --role arn:aws:iam::123456789012:role/FileConverter --runtime nodejs12.x --memory 3008 --timeout 4 --security-group-ids sg-565a1632 --subnet-ids subnet-e5e13c81,subnet-416da237,subnet-6f457129 --set-env-from-json env.json && claudia set-version --version production",
+    "prettier": "prettier --write src/**/*.js",
+    "lint": "eslint --debug src/",
+    "lint:write": "eslint --debug src/ --fix",
+    "transpile": "babel src -d bin --ignore \"**/*.test.js\",\"src/config/*.js\",\"src/migrations/*.js\",\"src/seeders/*.js\",\"src/seeds/*.js\"",
+    "setup": "yarn run transpile && claudia create --region ap-southeast-1 --api-module bin/api --version development --role arn:aws:iam::123456789012:role/FileConverter --runtime nodejs12.x --memory 3008 --timeout 30 --security-group-ids sg-565a1632 --subnet-ids subnet-e5e13c81,subnet-416da237,subnet-6f457129 --set-env-from-json env.json && claudia set-version --version production",
     "deploy": "yarn run transpile && claudia update --version development && claudia set-version --version production",
-    "deploy-dev": "yarn run transpile && claudia update --version development --timeout 4",
+    "deploy-dev": "yarn run transpile && claudia update --version development",
+    "deploy-prod": "yarn run transpile && claudia update --version production",
     "update-prod": "claudia set-version --version production",
     "pack": "yarn run transpile && claudia pack",
     "destroy": "claudia destroy",
-    "start": "ntl",
-    "test": "jest"
+    "test": "yarn run transpile && jest"
   },
   "files": [
     "bin"
-  ]
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "yarn lint:write",
+      "git add"
+    ]
+  }
 }

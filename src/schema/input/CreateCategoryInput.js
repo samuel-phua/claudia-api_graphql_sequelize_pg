@@ -1,9 +1,7 @@
-import {
-  GraphQLInputObjectType,
-} from "graphql";
-import categoryFields from "../fields/CategoryFields";
+import { GraphQLInputObjectType } from 'graphql';
+import categoryFields from '../fields/CategoryFields';
 
 export default new GraphQLInputObjectType({
-  name: "CreateCategoryInput",
+  name: 'CreateCategoryInput',
   fields: categoryFields,
 });
