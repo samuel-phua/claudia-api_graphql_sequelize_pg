@@ -36,7 +36,7 @@
     "husky": "^4.2.3",
     "jest": "^24.9.0",
     "lint-staged": "^10.0.9",
-    "minimist": "^1.2.5",
+    "minimist": "^1.2.6",
     "prettier": "^2.0.2",
     "sequelize-cli": "^5.5.1"
   },
